@@ -41,10 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         String logoutPage = "/logout";
         String registerPage = "/authentication/register";
 
-        http.
-                authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/home").authenticated()
-                .antMatchers(LOGIN_URL, registerPage,"/login-error").permitAll()
+                .antMatchers(LOGIN_URL, registerPage, "/login-error").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -53,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage(LOGIN_TEMPLATE)
                 .failureUrl("/login-error")
                 .defaultSuccessUrl("/")
-                .usernameParameter("username")
-                .passwordParameter("password")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
                 .logoutSuccessUrl(LOGIN_URL).and().exceptionHandling();

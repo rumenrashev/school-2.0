@@ -13,6 +13,7 @@ import school.service.AdminService;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,9 +46,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public UserServiceModel getUser(Long id) {
-        return this.modelMapper.map(
-                userRepository
-                        .findById(id),UserServiceModel.class);
+        Optional<UserEntity> optionalUserEntity = this.userRepository.findById(id);
+        UserServiceModel userServiceModel = optionalUserEntity.map(e -> this.modelMapper.map(e, UserServiceModel.class)).orElseThrow();
+        return userServiceModel;
     }
 
     @Override
@@ -73,6 +74,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<UserServiceModel> getAllAdmins() {
         return this.userRepository.findAllByAuthority(AuthorityEnum.ADMIN.name())
+                .stream()
+                .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserServiceModel> getAllTeachers() {
+        return this.userRepository.findAllByAuthority(AuthorityEnum.TEACHER.name())
                 .stream()
                 .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
                 .collect(Collectors.toList());

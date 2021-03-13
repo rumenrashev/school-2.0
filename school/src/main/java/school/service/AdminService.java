@@ -19,4 +19,6 @@ public interface AdminService {
 
     List<UserServiceModel> getAllAdmins();
 
+    List<UserServiceModel> getAllTeachers();
+
 }

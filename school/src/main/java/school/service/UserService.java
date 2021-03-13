@@ -6,4 +6,6 @@ import school.model.service.UserServiceModel;
 public interface UserService extends UserDetailsService {
 
     void registerUser(UserServiceModel userServiceModel);
+
+    void seedTestUsers();
 }
