@@ -1,4 +1,4 @@
-package school.web.controllers;
+package school.web.controllers.admin;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -9,19 +9,20 @@ import school.model.view.UserViewModel;
 import school.service.AdminService;
 import school.web.controllers.base.BaseController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends BaseController {
+public class UserController extends BaseController {
 
     private final AdminService adminService;
-    private final ModelMapper modelMapper;
-
-    public AdminController(AdminService adminService, ModelMapper modelMapper) {
+    public UserController(AdminService adminService, ModelMapper modelMapper) {
+        super(modelMapper);
         this.adminService = adminService;
-        this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/show-users")
     public String users(Model model) {
         return "/admin/users";
     }
@@ -47,9 +48,34 @@ public class AdminController extends BaseController {
     @GetMapping("/edit-user/{id}")
     public String editUser(@PathVariable Long id,Model model){
         UserServiceModel userServiceModel = this.adminService.getUser(id);
-        UserViewModel viewModel = this.modelMapper.map(userServiceModel, UserViewModel.class);
+        UserViewModel viewModel = modelMapper.map(userServiceModel, UserViewModel.class);
         model.addAttribute("user",viewModel);
         return "/admin/edit-user";
     }
 
+    @GetMapping("/admins")
+    @ResponseBody
+    public List<UserViewModel> admins(){
+        return mapToUserViewModel(adminService.getAllAdmins());
+    }
+
+
+    @GetMapping("/teachers")
+    @ResponseBody
+    public List<UserViewModel> teachers(){
+        return mapToUserViewModel(adminService.getAllTeachers());
+    }
+
+    @GetMapping("/users")
+    @ResponseBody
+    public List<UserViewModel> users(){
+        return mapToUserViewModel(adminService.getAllUsers());
+    }
+
+    private List<UserViewModel> mapToUserViewModel(List<UserServiceModel> serviceModels){
+        return serviceModels
+                .stream()
+                .map(s->this.modelMapper.map(s,UserViewModel.class))
+                .collect(Collectors.toList());
+    }
 }

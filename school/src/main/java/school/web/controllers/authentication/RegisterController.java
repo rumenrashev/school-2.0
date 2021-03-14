@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.model.binding.UserRegisterBindingModel;
 import school.model.service.UserServiceModel;
-import school.service.UserService;
-import school.web.annotation.PageTitle;
+import school.service.RegisterService;
+import school.anotation.PageTitle;
 import school.web.controllers.base.BaseController;
 
 import javax.validation.Valid;
@@ -23,21 +23,20 @@ import static school.constants.GlobalConstants.*;
 @RequestMapping(REGISTER_URL)
 public class RegisterController extends BaseController {
 
-    private final ModelMapper modelMapper;
-    private final UserService userService;
+    private final RegisterService registerService;
 
     @Autowired
     public RegisterController(ModelMapper modelMapper,
-                              UserService userService) {
-        this.modelMapper = modelMapper;
-        this.userService = userService;
+                              RegisterService registerService) {
+        super(modelMapper);
+        this.registerService = registerService;
     }
 
     @GetMapping()
-    @PageTitle("Register")
+    @PageTitle(REGISTER_TITLE)
     public String register(Model model){
-        if (model.getAttribute("bindingModel") == null){
-            model.addAttribute("bindingModel", new UserRegisterBindingModel());
+        if (model.getAttribute(BINDING_MODEL) == null){
+            model.addAttribute(BINDING_MODEL, new UserRegisterBindingModel());
         }
         return REGISTER_TEMPLATE;
     }
@@ -47,12 +46,12 @@ public class RegisterController extends BaseController {
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("bindingModel",userRegisterBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bindingModel",bindingResult);
-            return super.redirect(REGISTER_URL);
+            redirectAttributes.addFlashAttribute(BINDING_MODEL,userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute(BINDING_RESULT,bindingResult);
+            return redirect(REGISTER_URL);
         }
-        this.userService.registerUser(this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
-        return super.redirect(LOGIN_URL);
+        registerService.registerUser(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
+        return redirect(LOGIN_URL);
     }
 
 }

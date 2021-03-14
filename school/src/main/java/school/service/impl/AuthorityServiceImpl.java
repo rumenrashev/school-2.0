@@ -1,7 +1,7 @@
 package school.service.impl;
 
 import org.springframework.stereotype.Service;
-import school.enumuration.AuthorityEnum;
+import school.constants.enumuration.AuthorityEnum;
 import school.model.entity.AuthorityEntity;
 import school.repository.AuthorityRepository;
 import school.service.AuthorityService;

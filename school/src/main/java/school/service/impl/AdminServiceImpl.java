@@ -3,7 +3,7 @@ package school.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import school.enumuration.AuthorityEnum;
+import school.constants.enumuration.AuthorityEnum;
 import school.model.entity.AuthorityEntity;
 import school.model.entity.UserEntity;
 import school.model.service.UserServiceModel;

@@ -4,10 +4,11 @@
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
 <body>
-<th:block th:include="~{fragments/nav}"></th:block>
-<div class="container">
-    <table th:object="${user}" class="table table-striped" style="width:100%">
-        <tbody>
+<div class="wrap">
+    <th:block th:include="~{fragments/nav}"></th:block>
+    <div class="container">
+        <table th:object="${user}" class="table table-striped" style="width:100%">
+            <tbody>
             <tr>
                 <td>Username:</td>
                 <td th:text="*{username}"></td>
@@ -17,41 +18,51 @@
                 <td th:text="${#strings.listJoin(user.authorities,',')}"></td>
             </tr>
             <tr>
-            <td>Admin</td>
-            <td th:if="*{authorities.contains('ADMIN')}">
-                <form th:method="put" th:action="@{/admin/remove-authority}" >
-                    <input type="hidden" name="userId" th:value="${user.id}"/>
-                    <input type="hidden" name="authority" th:value="ADMIN"/>
-                    <button type="submit" value="Submit" class="btn btn-danger">Disable</button>
-                </form>
-            </td>
-            <td th:unless="*{authorities.contains('ADMIN')}">
-                <form th:method="put" th:action="@{/admin/add-authority}" >
-                    <input type="hidden" name="userId" th:value="${user.id}"/>
-                    <input type="hidden" name="authority" th:value="ADMIN"/>
-                    <button type="submit" value="Submit" class="btn btn-success">Enable</button>
-                </form>
-            </td>
+                <td>Admin</td>
+                <td th:if="*{authorities.contains('ADMIN')}">
+                    <form th:method="put" th:action="@{/admin/remove-authority}">
+                        <input type="hidden" name="userId" th:value="${user.id}"/>
+                        <input type="hidden" name="authority" th:value="ADMIN"/>
+                        <button type="submit" value="Submit" class="btn btn-danger">Disable</button>
+                    </form>
+                </td>
+                <td th:unless="*{authorities.contains('ADMIN')}">
+                    <form th:method="put" th:action="@{/admin/add-authority}">
+                        <input type="hidden" name="userId" th:value="${user.id}"/>
+                        <input type="hidden" name="authority" th:value="ADMIN"/>
+                        <button type="submit" value="Submit" class="btn btn-success">Enable</button>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td>Teacher:</td>
                 <td th:if="*{authorities.contains('TEACHER')}">
-                    <form th:method="put" th:action="@{/admin/remove-authority}" >
+                    <form th:method="put" th:action="@{/admin/remove-authority}">
                         <input type="hidden" name="userId" th:value="${user.id}"/>
                         <input type="hidden" name="authority" th:value="TEACHER"/>
                         <button type="submit" value="Submit" class="btn btn-danger">Disable</button>
                     </form>
                 </td>
                 <td th:unless="*{authorities.contains('TEACHER')}">
-                    <form th:method="put" th:action="@{/admin/add-authority}" >
+                    <form th:method="put" th:action="@{/admin/add-authority}">
                         <input type="hidden" name="userId" th:value="${user.id}"/>
                         <input type="hidden" name="authority" th:value="TEACHER"/>
                         <button type="submit" value="Submit" class="btn btn-success">Enable</button>
                     </form>
                 </td>
             </tr>
-        </tbody>
-    </table>
+            <tr>
+                <td colspan="2">
+                    <form th:method="delete" th:action="@{/admin/delete}">
+                        <input type="hidden" name="userId" th:value="${user.id}"/>
+                        <button type="submit" value="Submit" class="btn btn-danger">Delete account</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <th:block th:include="/fragments/footer"></th:block>
 </div>
 </body>
 </html>

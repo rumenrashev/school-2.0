@@ -1,20 +1,16 @@
 package school.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import school.enumuration.AuthorityEnum;
+import school.constants.enumuration.AuthorityEnum;
 import school.model.entity.AuthorityEntity;
 import school.model.entity.UserEntity;
-import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,17 +31,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserServiceModel userServiceModel) {
-        userServiceModel.setPassword(this.passwordEncoder.encode(userServiceModel.getPassword()));
-        UserEntity userEntity = this.modelMapper.map(userServiceModel, UserEntity.class);
-        if (this.userRepository.count() == 0){
-            userEntity.getAuthorities().add(this.authorityRepository.findByAuthority(AuthorityEnum.ADMIN.name()).orElseThrow());
-        }
-        userEntity.getAuthorities().add(this.authorityRepository.findByAuthority(AuthorityEnum.USER.name()).orElseThrow());
-        this.userRepository.saveAndFlush(userEntity);
-    }
-
-    @Override
     public void seedTestUsers() {
         if (userRepository.count() > 0){
             return;
@@ -56,14 +41,6 @@ public class UserServiceImpl implements UserService {
         seedAdmin(List.of(adminRole,teacherRole,userRole));
         seedTeacher(List.of(teacherRole,userRole));
         seedUser(List.of(userRole));
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepository.findByUsername(username)
-                .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
-                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 
     private void seedAdmin(List<AuthorityEntity> authorities){

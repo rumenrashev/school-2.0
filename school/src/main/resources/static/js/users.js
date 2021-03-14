@@ -1,7 +1,7 @@
 
 
 $( document ).ready(function() {
-    const mainUrl = 'http://localhost:8000/api';
+    const mainUrl = 'http://localhost:8000/admin';
     function createRow (user) {
         console.log(user.username)
         let usernameColumn = '<td>' + user.username + '</td>';

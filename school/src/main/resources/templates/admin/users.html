@@ -5,12 +5,12 @@
     <script src="/js/users.js" type="text/javascript"></script>
 </head>
 <body>
+<div class="wrap">
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
         <button class="button" id="admin-button">Admins</button>
         <button class="button" id="teacher-button">Teachers</button>
         <button class="button" id="user-button">Show users</button>
-    <table>
     <h1 id="user-group"></h1>
     <table class="table table-striped" style="width:100%">
         <thead>
@@ -21,6 +21,8 @@
         </thead>
         <tbody class="user-container"></tbody>
     </table>
+</div>
+<th:block th:include="~{/fragments/footer}"></th:block>
 </div>
 </body>
 </html>

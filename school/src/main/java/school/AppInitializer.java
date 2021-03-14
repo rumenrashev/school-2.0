@@ -1,4 +1,4 @@
-package school.init;
+package school;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

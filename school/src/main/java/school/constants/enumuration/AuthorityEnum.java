@@ -1,4 +1,4 @@
-package school.enumuration;
+package school.constants.enumuration;
 
 public enum AuthorityEnum {
 

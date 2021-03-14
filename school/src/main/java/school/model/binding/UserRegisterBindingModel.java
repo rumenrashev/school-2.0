@@ -1,7 +1,14 @@
 package school.model.binding;
 
 import org.hibernate.validator.constraints.Length;
+import school.anotation.FieldMatch;
+import school.anotation.UniqueUsername;
 
+@FieldMatch(
+        first = "password",
+        second = "confirmPassword",
+        message = "Does not match password."
+)
 public class UserRegisterBindingModel {
 
     private String username;
@@ -12,6 +19,7 @@ public class UserRegisterBindingModel {
     }
 
     @Length(min = 3,max = 20,message = "Username must be between 3 and 20 characters")
+    @UniqueUsername
     public String getUsername() {
         return username;
     }
@@ -21,7 +29,7 @@ public class UserRegisterBindingModel {
         return this;
     }
 
-    @Length(min = 3,max = 20,message = "Username must be between 3 and 20 characters")
+    @Length(min = 3,max = 20,message = "Password must be between 3 and 20 characters")
     public String getPassword() {
         return password;
     }

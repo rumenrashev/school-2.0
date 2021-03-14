@@ -10,54 +10,49 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import school.service.UserService;
+import school.constants.enumuration.AuthorityEnum;
+import school.service.LoginService;
 
-import static school.constants.GlobalConstants.LOGIN_TEMPLATE;
-import static school.constants.GlobalConstants.LOGIN_URL;
+import static school.constants.GlobalConstants.*;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserService userDetails;
+    private final LoginService loginService;
 
     @Autowired
-    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userDetails) {
+    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, LoginService loginService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userDetails = userDetails;
+        this.loginService = loginService;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetails)
+                .userDetailsService(loginService)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        String logoutPage = "/logout";
-        String registerPage = "/authentication/register";
-
         http
-                .authorizeRequests()
-                .antMatchers("/home").authenticated()
-                .antMatchers(LOGIN_URL, registerPage, "/login-error").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated()
+                    .authorizeRequests()
+                    .antMatchers(INDEX_URL).permitAll()
+                    .antMatchers(LOGIN_URL, REGISTER_URL, LOGIN_ERROR_URL).anonymous()
+                    .antMatchers(ADMIN_ROOT_ALL).hasAuthority(AuthorityEnum.ADMIN.name())
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage(LOGIN_TEMPLATE)
-                .failureUrl("/login-error")
-                .defaultSuccessUrl("/")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
-                .logoutSuccessUrl(LOGIN_URL).and().exceptionHandling();
+                    .formLogin()
+                    .loginPage(LOGIN_URL)
+                    .failureUrl(LOGIN_ERROR_URL)
+                    .defaultSuccessUrl(INDEX_URL)
+                .and()
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_URL))
+                    .logoutSuccessUrl(LOGIN_URL).and().exceptionHandling();
     }
 
     @Override
