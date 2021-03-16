@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers(INDEX_URL).permitAll()
                     .antMatchers(LOGIN_URL, REGISTER_URL, LOGIN_ERROR_URL).anonymous()
-                    .antMatchers(ADMIN_ROOT_ALL).hasAuthority(AuthorityEnum.ADMIN.name())
+                    .antMatchers(ADMIN_ROOT_ALL,"/admin/groups/**").hasAuthority(AuthorityEnum.ADMIN.name())
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()

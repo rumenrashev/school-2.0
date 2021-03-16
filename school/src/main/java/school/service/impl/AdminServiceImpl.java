@@ -10,6 +10,7 @@ import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.AdminService;
+import school.service.base.BaseService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,15 +18,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl extends BaseService implements AdminService {
 
-    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
 
     @Autowired
     public AdminServiceImpl(ModelMapper modelMapper, UserRepository userRepository, AuthorityRepository authorityRepository) {
-        this.modelMapper = modelMapper;
+        super(modelMapper);
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
     }
@@ -47,8 +47,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserServiceModel getUser(Long id) {
         Optional<UserEntity> optionalUserEntity = this.userRepository.findById(id);
-        UserServiceModel userServiceModel = optionalUserEntity.map(e -> this.modelMapper.map(e, UserServiceModel.class)).orElseThrow();
-        return userServiceModel;
+        return optionalUserEntity.map(e -> this.modelMapper.map(e, UserServiceModel.class)).orElseThrow();
     }
 
     @Override

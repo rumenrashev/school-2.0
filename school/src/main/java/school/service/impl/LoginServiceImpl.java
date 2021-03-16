@@ -7,16 +7,16 @@ import org.springframework.stereotype.Service;
 import school.model.service.UserServiceModel;
 import school.repository.UserRepository;
 import school.service.LoginService;
+import school.service.base.BaseService;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl extends BaseService implements LoginService {
 
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
 
-    public LoginServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
+    public LoginServiceImpl(ModelMapper modelMapper, UserRepository userRepository1) {
+        super(modelMapper);
+        this.userRepository = userRepository1;
     }
 
     @Override

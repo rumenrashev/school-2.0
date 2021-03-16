@@ -9,13 +9,13 @@ import school.model.entity.UserEntity;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.UserService;
+import school.service.base.BaseService;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
-    private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
                            BCryptPasswordEncoder passwordEncoder,
                            UserRepository userRepository,
                            AuthorityRepository authorityRepository) {
-        this.modelMapper = modelMapper;
+        super(modelMapper);
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;

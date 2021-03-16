@@ -1,28 +1,19 @@
 package school.model.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import school.model.base.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserServiceModel implements UserDetails {
+public class UserServiceModel extends BaseModel implements UserDetails {
 
-    private Long id;
     private String username;
     private String password;
     private List<AuthorityServiceModel> authorities;
 
     public UserServiceModel() {
         this.authorities = new ArrayList<>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserServiceModel setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     @Override

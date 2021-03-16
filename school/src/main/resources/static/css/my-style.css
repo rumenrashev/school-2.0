@@ -33,3 +33,9 @@ footer {
     padding: 15px;
     text-align: center;
 }
+
+.my-button{
+    background-color: rgb(54,58,64);
+    color: rgb(154,157,160);
+    border: none;
+}

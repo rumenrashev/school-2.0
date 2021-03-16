@@ -1,22 +1,13 @@
 package school.model.service;
 
 import org.springframework.security.core.GrantedAuthority;
+import school.model.base.BaseModel;
 
-public class AuthorityServiceModel implements GrantedAuthority {
+public class AuthorityServiceModel extends BaseModel implements GrantedAuthority {
 
-    private Long id;
     private String authority;
 
     public AuthorityServiceModel() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public AuthorityServiceModel setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     @Override

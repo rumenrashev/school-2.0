@@ -13,44 +13,44 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
-public class UserController extends BaseController {
+@RequestMapping("/admin/users")
+public class UsersController extends BaseController {
 
     private final AdminService adminService;
-    public UserController(AdminService adminService, ModelMapper modelMapper) {
+    public UsersController(AdminService adminService, ModelMapper modelMapper) {
         super(modelMapper);
         this.adminService = adminService;
     }
 
     @GetMapping("/show-users")
     public String users(Model model) {
-        return "/admin/users";
+        return "/admin/users/users";
     }
 
     @DeleteMapping("/delete")
-    public String delete(Long id) {
-        this.adminService.deleteUser(id);
-        return super.redirect("/admin/users");
+    public String delete(Long userId) {
+        this.adminService.deleteUser(userId);
+        return redirect("/admin/users/show-users");
     }
 
     @PutMapping("/add-authority")
     public String addAuthority(Long userId, String authority) {
-        this.adminService.addAuthority(userId, authority);
-        return super.redirect("/admin/edit-user/" + userId);
+        adminService.addAuthority(userId, authority);
+        return redirect("/admin/users/edit-user/" + userId);
     }
 
     @PutMapping("/remove-authority")
     public String removeAuthority(Long userId, String authority) {
-        this.adminService.removeAuthority(userId, authority);
-        return super.redirect("/admin/edit-user/" + userId);
+        adminService.removeAuthority(userId, authority);
+        return redirect("/admin/users/edit-user/" + userId);
     }
 
     @GetMapping("/edit-user/{id}")
     public String editUser(@PathVariable Long id,Model model){
-        UserServiceModel userServiceModel = this.adminService.getUser(id);
+        UserServiceModel userServiceModel = adminService.getUser(id);
         UserViewModel viewModel = modelMapper.map(userServiceModel, UserViewModel.class);
         model.addAttribute("user",viewModel);
-        return "/admin/edit-user";
+        return "/admin/users/edit-user";
     }
 
     @GetMapping("/admins")

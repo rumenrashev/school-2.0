@@ -13,7 +13,7 @@ public interface AdminService {
 
     UserServiceModel getUser(Long id);
 
-    void addAuthority(Long user_id,String authority);
+    void addAuthority(Long userId,String authority);
 
     void removeAuthority(Long userId,String authority);
 

@@ -1,23 +1,15 @@
 package school.model.view;
 
+import school.model.base.BaseModel;
+
 import java.util.List;
 
-public class UserViewModel {
+public class UserViewModel extends BaseModel {
 
-    private Long id;
     private String username;
     private List<String> authorities;
 
     public UserViewModel() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserViewModel setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     public String getUsername() {

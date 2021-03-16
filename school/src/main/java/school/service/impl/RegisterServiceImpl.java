@@ -10,11 +10,11 @@ import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.RegisterService;
+import school.service.base.BaseService;
 
 @Service
-public class RegisterServiceImpl implements RegisterService {
+public class RegisterServiceImpl extends BaseService implements RegisterService {
 
-    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -24,7 +24,7 @@ public class RegisterServiceImpl implements RegisterService {
                                UserRepository userRepository,
                                AuthorityRepository authorityRepository,
                                BCryptPasswordEncoder passwordEncoder) {
-        this.modelMapper = modelMapper;
+        super(modelMapper);
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.passwordEncoder = passwordEncoder;

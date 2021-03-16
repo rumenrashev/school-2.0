@@ -5,7 +5,7 @@ public class GlobalConstants {
     //Roots
     public static final String ALL = "/**";
     public static final String AUTHENTICATION_ROOT = "/authentication";
-    public static final String ADMIN_ROOT = "/admin";
+    public static final String ADMIN_ROOT = "/admin/users";
     public static final String ADMIN_ROOT_ALL = ADMIN_ROOT + ALL;
 
 
