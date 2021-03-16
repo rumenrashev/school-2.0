@@ -6,12 +6,8 @@
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
-<div class="container" id="button-container">
-    <button class="button btn-dark" id="add-group-button">Добави клас</button>
-    <button class="button btn-dark" id="hide-add-group-button">Скрий добави клас</button>
-</div>
 <div class="container" id="add-group-container">
-    <form th:method="POST" th:action="@{/admin/groups/add-group}" th:object="${bindingModel}"
+    <form th:method="POST" th:action="@{/groups/add}" th:object="${bindingModel}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <h3 class="text-center text-white">Add group</h3>
         <small th:if="${error}" class="text-danger" style="text-align: center">Group with this number and letter
@@ -38,26 +34,6 @@
             </div>
         </div>
     </form>
-</div>
-<div class="container" id="all-groups-container" >
-    <table class="table table-striped" style="width:100%">
-        <thead>
-        <tr><td colspan="2" style="text-align: center"><h3>All groups</h3></td></tr>
-        <tr>
-            <td>Name</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="g : ${groups}">
-            <td th:text="|${g.number} ${g.letter}|"></td>
-            <td>
-                <a th:href="@{/admin/groups/details/{id}(id=${g.id})}" class="button btn-primary">Details</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div style="height: 80px"></div>
 </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </body>

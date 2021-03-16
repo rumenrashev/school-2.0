@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import school.model.service.UserServiceModel;
 import school.repository.UserRepository;
 import school.service.LoginService;
-import school.service.base.BaseService;
 
 @Service
 public class LoginServiceImpl extends BaseService implements LoginService {

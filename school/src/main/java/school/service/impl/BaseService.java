@@ -1,4 +1,4 @@
-package school.service.base;
+package school.service.impl;
 
 import org.modelmapper.ModelMapper;
 

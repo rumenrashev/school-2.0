@@ -2,7 +2,6 @@ package school.model.entity;
 
 import school.constants.enumuration.GroupLetter;
 import school.constants.enumuration.GroupNumber;
-import school.model.entity.base.BaseEntity;
 
 import javax.persistence.*;
 import java.util.List;

@@ -10,7 +10,6 @@ import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.RegisterService;
-import school.service.base.BaseService;
 
 @Service
 public class RegisterServiceImpl extends BaseService implements RegisterService {

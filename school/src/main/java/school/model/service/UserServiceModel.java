@@ -1,7 +1,7 @@
 package school.model.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import school.model.base.BaseModel;
+import school.model.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;

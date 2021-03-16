@@ -1,6 +1,6 @@
 package school.model.view;
 
-import school.model.base.BaseModel;
+import school.model.BaseModel;
 
 public class StudentViewModel extends BaseModel {
 

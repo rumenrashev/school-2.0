@@ -10,7 +10,6 @@ import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.AdminService;
-import school.service.base.BaseService;
 
 import javax.transaction.Transactional;
 import java.util.List;

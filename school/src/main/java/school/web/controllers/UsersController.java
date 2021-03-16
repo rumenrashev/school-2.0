@@ -1,4 +1,4 @@
-package school.web.controllers.admin;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import school.model.service.UserServiceModel;
 import school.model.view.UserViewModel;
 import school.service.AdminService;
-import school.web.controllers.base.BaseController;
 
 import java.util.List;
 import java.util.stream.Collectors;

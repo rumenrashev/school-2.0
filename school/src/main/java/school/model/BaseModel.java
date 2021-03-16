@@ -1,4 +1,4 @@
-package school.model.base;
+package school.model;
 
 public abstract class BaseModel {
 

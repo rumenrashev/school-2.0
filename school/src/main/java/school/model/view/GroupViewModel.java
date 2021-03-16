@@ -2,7 +2,7 @@ package school.model.view;
 
 import school.constants.enumuration.GroupLetter;
 import school.constants.enumuration.GroupNumber;
-import school.model.base.BaseModel;
+import school.model.BaseModel;
 
 import java.util.List;
 

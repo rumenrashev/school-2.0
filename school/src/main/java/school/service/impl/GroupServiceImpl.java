@@ -7,7 +7,6 @@ import school.model.entity.GroupEntity;
 import school.model.service.GroupServiceModel;
 import school.repository.GroupRepository;
 import school.service.GroupService;
-import school.service.base.BaseService;
 
 import java.util.List;
 import java.util.stream.Collectors;

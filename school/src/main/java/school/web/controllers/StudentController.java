@@ -1,16 +1,13 @@
-package school.web.controllers.admin;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import school.model.binding.StudentBindingModel;
 import school.model.service.StudentServiceModel;
 import school.service.StudentService;
-import school.web.controllers.base.BaseController;
 
 @Controller
 @RequestMapping("/students")

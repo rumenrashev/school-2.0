@@ -9,7 +9,6 @@ import school.model.entity.UserEntity;
 import school.repository.AuthorityRepository;
 import school.repository.UserRepository;
 import school.service.UserService;
-import school.service.base.BaseService;
 
 import java.util.List;
 

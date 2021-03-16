@@ -1,4 +1,4 @@
-package school.web.controllers.authentication;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.model.binding.UserLoginBindingModel;
 import school.anotation.PageTitle;
-import school.web.controllers.base.BaseController;
 
 import static school.constants.GlobalConstants.*;
 

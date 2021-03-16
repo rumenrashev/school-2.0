@@ -1,4 +1,4 @@
-package school.web.controllers.base;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 

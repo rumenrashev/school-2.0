@@ -1,6 +1,6 @@
 package school.model.service;
 
-import school.model.base.BaseModel;
+import school.model.BaseModel;
 
 public class StudentServiceModel extends BaseModel {
 

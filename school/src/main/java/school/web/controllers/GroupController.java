@@ -1,4 +1,4 @@
-package school.web.controllers.admin;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import school.model.binding.StudentBindingModel;
 import school.model.service.GroupServiceModel;
 import school.model.view.GroupViewModel;
 import school.service.GroupService;
-import school.service.StudentService;
-import school.web.controllers.base.BaseController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,47 +21,51 @@ import java.util.stream.Collectors;
 import static school.constants.GlobalConstants.*;
 
 @Controller
-@RequestMapping("/admin/groups")
+@RequestMapping("/groups")
 public class GroupController extends BaseController {
 
     private final GroupService groupService;
-    private final StudentService studentService;
 
     @Autowired
-    protected GroupController(ModelMapper modelMapper, GroupService groupService, StudentService studentService) {
+    protected GroupController(ModelMapper modelMapper, GroupService groupService) {
         super(modelMapper);
         this.groupService = groupService;
-        this.studentService = studentService;
     }
 
-    @GetMapping("/add-group")
+    @GetMapping("/all")
+    public String all(Model model){
+        model.addAttribute("groups",getGroups());
+        return "groups-all";
+    }
+
+    @GetMapping("/add")
     public String addGroupGet(Model model){
         if (model.getAttribute(BINDING_MODEL) == null){
             model.addAttribute(BINDING_MODEL,new GroupBindingModel());
         }
-        model.addAttribute("groups",getGroups());
-        return "/admin/groups/groups";
+        return "groups-add";
     }
 
-    @PostMapping("/add-group")
+    @PostMapping("/add")
     public String addGroupPost(GroupBindingModel groupBindingModel, RedirectAttributes redirectAttributes){
         GroupServiceModel serviceModel = modelMapper.map(groupBindingModel, GroupServiceModel.class);
         boolean successful = groupService.createGroup(serviceModel);
         if (!successful){
             redirectAttributes.addFlashAttribute(ERROR,true);
+            redirectAttributes.addFlashAttribute(BINDING_MODEL,groupBindingModel);
+            return redirect("/groups/add");
         }
-        return redirect("/admin/groups/add-group");
+        return redirect("/groups/all");
     }
 
     @GetMapping("/details/{id}")
     public String groupDetailsGet(@PathVariable Long id,Model model){
         GroupServiceModel group = groupService.getGroupById(id);
         model.addAttribute("group",group);
-
         if (model.getAttribute(BINDING_MODEL) == null){
             model.addAttribute(BINDING_MODEL,new StudentBindingModel());
         }
-        return "/admin/groups/group-details";
+        return "groups-details";
     }
 
     private List<GroupViewModel> getGroups(){

@@ -1,4 +1,4 @@
-package school.web.controllers.authentication;
+package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import school.model.binding.UserRegisterBindingModel;
 import school.model.service.UserServiceModel;
 import school.service.RegisterService;
 import school.anotation.PageTitle;
-import school.web.controllers.base.BaseController;
 
 import javax.validation.Valid;
 

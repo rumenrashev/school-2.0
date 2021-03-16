@@ -1,4 +1,4 @@
-package school.model.entity.base;
+package school.model.entity;
 
 import javax.persistence.*;
 

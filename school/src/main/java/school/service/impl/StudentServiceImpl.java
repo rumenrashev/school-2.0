@@ -9,7 +9,6 @@ import school.model.service.StudentServiceModel;
 import school.repository.GroupRepository;
 import school.repository.StudentRepository;
 import school.service.StudentService;
-import school.service.base.BaseService;
 
 @Service
 public class StudentServiceImpl extends BaseService implements StudentService {
