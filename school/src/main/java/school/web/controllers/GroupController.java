@@ -35,6 +35,9 @@ public class GroupController extends BaseController {
     @GetMapping("/all")
     public String all(Model model){
         model.addAttribute("groups",getGroups());
+        if (model.getAttribute(BINDING_MODEL) == null){
+            model.addAttribute(BINDING_MODEL,new GroupBindingModel());
+        }
         return "groups-all";
     }
 
@@ -58,14 +61,27 @@ public class GroupController extends BaseController {
         return redirect("/groups/all");
     }
 
+    @GetMapping("/details")
+    public String groupDetails(Model model){
+        return "groups-details";
+    }
+
     @GetMapping("/details/{id}")
     public String groupDetailsGet(@PathVariable Long id,Model model){
         GroupServiceModel group = groupService.getGroupById(id);
+        StudentBindingModel bindingModel = new StudentBindingModel();
+        model.addAttribute(BINDING_MODEL,new StudentBindingModel());
         model.addAttribute("group",group);
-        if (model.getAttribute(BINDING_MODEL) == null){
-            model.addAttribute(BINDING_MODEL,new StudentBindingModel());
-        }
         return "groups-details";
+    }
+
+    @PostMapping("/details")
+    public String groupDetailsPost(Long groupId,RedirectAttributes redirectAttributes){
+        GroupServiceModel group = groupService.getGroupById(groupId);
+        StudentBindingModel bindingModel = new StudentBindingModel();
+        redirectAttributes.addFlashAttribute("group",group);
+        redirectAttributes.addFlashAttribute(BINDING_MODEL,bindingModel);
+        return redirect("/groups/details");
     }
 
     private List<GroupViewModel> getGroups(){

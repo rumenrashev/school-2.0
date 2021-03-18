@@ -12,7 +12,6 @@ public class GroupEntity extends BaseEntity {
 
     private GroupNumber number;
     private GroupLetter letter;
-    private List<StudentEntity> students;
 
     @Enumerated(EnumType.ORDINAL)
     public GroupNumber getNumber() {
@@ -31,16 +30,6 @@ public class GroupEntity extends BaseEntity {
 
     public GroupEntity setLetter(GroupLetter letter) {
         this.letter = letter;
-        return this;
-    }
-
-    @OneToMany(mappedBy = "group")
-    public List<StudentEntity> getStudents() {
-        return students;
-    }
-
-    public GroupEntity setStudents(List<StudentEntity> students) {
-        this.students = students;
         return this;
     }
 }

@@ -10,7 +10,6 @@ public class GroupViewModel extends BaseModel {
 
     private GroupNumber number;
     private GroupLetter letter;
-    private List<StudentViewModel> students;
 
     public GroupViewModel() {
     }
@@ -30,15 +29,6 @@ public class GroupViewModel extends BaseModel {
 
     public GroupViewModel setLetter(GroupLetter letter) {
         this.letter = letter;
-        return this;
-    }
-
-    public List<StudentViewModel> getStudents() {
-        return students;
-    }
-
-    public GroupViewModel setStudents(List<StudentViewModel> students) {
-        this.students = students;
         return this;
     }
 }

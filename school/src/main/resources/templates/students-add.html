@@ -5,8 +5,8 @@
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
-<div class="container">
-    <form th:method="POST" th:action="@{admin/groups/add-student}" th:object="${bindingModel}"
+<div class="container" id="add-student-container">
+    <form th:method="POST" th:action="@{/students/add}" th:object="${bindingModel}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="form-group">
             <label for="firstName" class="text-white font-weight-bold">First name</label>
@@ -23,6 +23,7 @@
             <input th:field="*{lastName}" th:errorclass="bg-danger" id="lastName" required name="lastName" type="text" min="3" max="20" class="form-control"
                    placeholder="Enter last name"/>
         </div>
+        <input type="hidden" th:value="${groupId}" name="groupId">
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">

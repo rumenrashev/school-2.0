@@ -10,23 +10,16 @@
     <form method="get" action="/groups/add">
         <button class="button btn-dark">Добави клас</button>
     </form>
-    <table class="table table-striped" style="width:100%">
-        <thead>
-        <tr><td colspan="2" style="text-align: center"><h3>All groups</h3></td></tr>
-        <tr>
-            <td>Name</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="g : ${groups}" th:object="${g}">
-            <td th:text="|*{number} *{letter}|"></td>
-            <td>
-                <a th:href="@{/groups/details/{id}(id=*{id})}" class="button btn-primary">Details</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <form th:method="post" th:action="@{/groups/details}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <h3 class="text-center text-white">Избери клас</h3>
+        <div class="form-group">
+            <select class="form-control" id="groupId" name="groupId">
+                <option th:each="group : ${groups}" th:value="${group.id}" th:text="|${group.number} ${group.letter}|"></option>
+            </select>
+        </div>
+        <button class="button btn-dark">Избери</button>
+    </form>
     <div style="height: 80px;"></div>
 </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
