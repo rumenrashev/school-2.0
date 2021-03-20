@@ -9,7 +9,7 @@
 <div class="container">
     <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
     <a th:href="@{'/students/add/' + ${group.id}}" ><button type="button" class="button btn-dark">Ученици</button></a>
-    <a ><button type="button" class="button btn-dark">Предмети</button></a>
+    <a th:href="@{'/subjects/' + ${group.id}}" ><button type="button" class="button btn-dark">Предмети</button></a>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </div>
 </body>
