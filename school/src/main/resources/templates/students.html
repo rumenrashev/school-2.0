@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
+            <div id="students-container">
+                <table class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <td>Име</td>
+                            <td>Презиме</td>
+                            <td>Фамилия</td>
+                        </tr>
+                    </thead>
+                        <tr th:each="student : ${students}">
+                            <td th:text="${student.firstName}"></td>
+                            <td th:text="${student.middleName}"></td>
+                            <td th:text="${student.lastName}"></td>
+                            <td>
+                                    <a id="add-student-btn" th:href="@{'/students/edit/' + ${student.id}}">
+                                        <button type="button" class="button btn-success">Промени</button>
+                                    </a>
+                            </td>
+                        </tr>
+
+                </table>
+            </div>
+    <div style="height: 50px"></div>
+    <div id="add-student-container">
+        <form th:method="POST" th:action="@{/students/add}" th:object="${bindingModel}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            <h3 class="text-white text-center">Добави ученик</h3>
+            <small th:text="${successMessage}" class="text-success"></small>
+            <div class="form-group">
+                <input th:field="*{firstName}" th:errorclass="bg-danger" id="firstName" required name="firstName"
+                       type="text" min="3" max="20" class="form-control"
+                       placeholder="Име..."/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{middleName}" th:errorclass="bg-danger" id="middleName" required name="middleName"
+                       type="text" min="3" max="20" class="form-control"
+                       placeholder="Презиме..."/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{lastName}" th:errorclass="bg-danger" id="lastName" required name="lastName" type="text"
+                       min="3" max="20" class="form-control"
+                       placeholder="Фамилия..."/>
+            </div>
+            <input type="hidden" th:value="${group.id}" name="groupId">
+            <div class="row">
+                <div class="col col-md-4">
+                    <div class="button-holder d-flex">
+                        <input type="submit" class="btn btn-info btn-lg" value="Добави"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="height: 80px"></div>
+    </div>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</body>
+</html>

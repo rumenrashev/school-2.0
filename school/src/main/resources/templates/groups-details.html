@@ -8,42 +8,9 @@
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
     <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
-    <button class="button btn-dark" id="add-student-btn">Добави ученик</button>
-<div id="add-student-container">
-    <button class="button btn-dark" id="students-btn" th:onclick="'students('+${group.id}+')'">Ученици</button>
-    <form th:method="POST" th:action="@{/students/add}" th:object="${bindingModel}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-        <h3 class="text-white text-center">Добави ученик</h3>
-        <small th:if="${success}" class="text-success">Ученикът е добавен успешно</small>
-        <div class="form-group">
-            <input th:field="*{firstName}" th:errorclass="bg-danger" id="firstName" required name="firstName"
-                   type="text" min="3" max="20" class="form-control"
-                   placeholder="Име..."/>
-        </div>
-        <div class="form-group">
-            <input th:field="*{middleName}" th:errorclass="bg-danger" id="middleName" required name="middleName"
-                   type="text" min="3" max="20" class="form-control"
-                   placeholder="Презиме..."/>
-        </div>
-        <div class="form-group">
-            <input th:field="*{lastName}" th:errorclass="bg-danger" id="lastName" required name="lastName" type="text"
-                   min="3" max="20" class="form-control"
-                   placeholder="Фамилия..."/>
-        </div>
-        <input type="hidden" th:value="${group.id}" name="groupId">
-        <div class="row">
-            <div class="col col-md-4">
-                <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Добави"/>
-                </div>
-            </div>
-        </div>
-    </form>
-    <div style="height: 50px"></div>
-</div>
-    <div id="students-container">
-
-    </div>
-</div>
+    <a th:href="@{'/students/add/' + ${group.id}}" ><button type="button" class="button btn-dark">Ученици</button></a>
+    <a ><button type="button" class="button btn-dark">Предмети</button></a>
 <th:block th:include="~{/fragments/footer}"></th:block>
+</div>
 </body>
 </html>

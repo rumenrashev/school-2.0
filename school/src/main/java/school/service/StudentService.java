@@ -10,4 +10,9 @@ public interface StudentService {
 
     List<StudentServiceModel> getStudentsByClassId(Long groupId);
 
+    StudentServiceModel getStudentById(Long id);
+
+    void editStudent(StudentServiceModel serviceModel);
+
+    void deleteStudent(Long id);
 }

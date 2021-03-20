@@ -1,8 +1,8 @@
 function students(groupId) {
     $(document).ready(function () {
-        $('#students-btn').hide();
         $('#add-student-btn').show();
         $('#add-student-container').hide();
+        $('#students-btn').hide();
         $('#students-container').empty();
         let table =
             '<table class="table table-striped" style="width:100%">' +
@@ -35,11 +35,7 @@ function students(groupId) {
 }
 
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#add-student-btn').hide();
-        $('#add-student-btn').click(()=>{
-            $('#add-student-btn').hide();
-            $('#students-btn').show();
-            $('#students-container').empty();
-            $('#add-student-container').show();
-        })})
+    });
+
