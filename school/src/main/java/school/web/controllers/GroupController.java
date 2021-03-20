@@ -41,23 +41,18 @@ public class GroupController extends BaseController {
         return "groups-all";
     }
 
-    @GetMapping("/add")
-    public String addGroupGet(Model model){
-        if (model.getAttribute(BINDING_MODEL) == null){
-            model.addAttribute(BINDING_MODEL,new GroupBindingModel());
-        }
-        return "groups-add";
-    }
-
     @PostMapping("/add")
     public String addGroupPost(GroupBindingModel groupBindingModel, RedirectAttributes redirectAttributes){
         GroupServiceModel serviceModel = modelMapper.map(groupBindingModel, GroupServiceModel.class);
         boolean successful = groupService.createGroup(serviceModel);
         if (!successful){
-            redirectAttributes.addFlashAttribute(ERROR,true);
+            String error = String.format(GROUP_CREATED,groupBindingModel.getNumber(),groupBindingModel.getLetter());
+            redirectAttributes.addFlashAttribute(ERROR,error);
             redirectAttributes.addFlashAttribute(BINDING_MODEL,groupBindingModel);
-            return redirect("/groups/add");
+            return redirect("/groups/all");
         }
+        String messageSuccess = String.format(GROUP_EXISTS,groupBindingModel.getNumber(),groupBindingModel.getLetter());
+        redirectAttributes.addFlashAttribute("messageSuccess",messageSuccess);
         return redirect("/groups/all");
     }
 
@@ -69,7 +64,6 @@ public class GroupController extends BaseController {
     @GetMapping("/details/{id}")
     public String groupDetailsGet(@PathVariable Long id,Model model){
         GroupServiceModel group = groupService.getGroupById(id);
-        StudentBindingModel bindingModel = new StudentBindingModel();
         model.addAttribute(BINDING_MODEL,new StudentBindingModel());
         model.addAttribute("group",group);
         return "groups-details";

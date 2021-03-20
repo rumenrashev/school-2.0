@@ -30,4 +30,10 @@ public class GlobalConstants {
     public static final String REGISTER_TITLE = "Register";
     public static final String LOGIN_TITLE = "Login";
 
+
+    //Messages
+    public static final String GROUP_CREATED = "%s %s клас съществува.";
+
+    //Error messages
+    public static final String GROUP_EXISTS = "%s %s клас е добавен.";
 }

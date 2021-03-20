@@ -6,10 +6,7 @@
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
-<div class="container" id="all-groups-container" >
-    <form method="get" action="/groups/add">
-        <button class="button btn-dark">Добави клас</button>
-    </form>
+<div class="container" id="all-groups-container">
     <form th:method="post" th:action="@{/groups/details}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <h3 class="text-center text-white">Избери клас</h3>
@@ -18,9 +15,43 @@
                 <option th:each="group : ${groups}" th:value="${group.id}" th:text="|${group.number} ${group.letter}|"></option>
             </select>
         </div>
-        <button class="button btn-dark">Избери</button>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Избери"/>
+                </div>
+            </div>
+        </div>
     </form>
     <div style="height: 80px;"></div>
+    <form th:method="POST" th:action="@{/groups/add}" th:object="${bindingModel}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <h3 class="text-center text-white">Добави клас</h3>
+        <small th:text="${error}" class="text-danger" style="text-align: center"></small>
+        <small th:text="${messageSuccess}" class="text-success" style="text-align: center"></small>
+        <div class="form-group">
+            <label for="number" class="text-white font-weight-bold">Избери номер</label>
+            <select class="form-control" id="number" name="number">
+                <option th:each="n :${T(school.constants.enumuration.GroupNumber).values()}" th:value="${n}"
+                        th:text="${n}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="letter" class="text-white font-weight-bold">Избери буква</label>
+            <select class="form-control" id="letter" name="letter">
+                <option th:each="l :${T(school.constants.enumuration.GroupLetter).values()}" th:value="${l}"
+                        th:text="${l}"></option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Добави"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div style="height: 80px"></div>
 </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </body>
