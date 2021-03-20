@@ -7,6 +7,7 @@ public class SubjectServiceModel extends BaseModel {
 
     private SubjectEnum subject;
     private Long GroupId;
+    private Long teacherId;
 
     public SubjectServiceModel() {
     }
@@ -26,6 +27,15 @@ public class SubjectServiceModel extends BaseModel {
 
     public SubjectServiceModel setGroupId(Long groupId) {
         GroupId = groupId;
+        return this;
+    }
+
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public SubjectServiceModel setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
         return this;
     }
 }

@@ -12,6 +12,7 @@ public class SubjectEntity extends BaseEntity {
 
     private SubjectEnum subject;
     private GroupEntity group;
+    private TeacherEntity teacher;
 
     public SubjectEntity() {
     }
@@ -32,6 +33,16 @@ public class SubjectEntity extends BaseEntity {
 
     public SubjectEntity setGroup(GroupEntity group) {
         this.group = group;
+        return this;
+    }
+
+    @ManyToOne
+    public TeacherEntity getTeacher() {
+        return teacher;
+    }
+
+    public SubjectEntity setTeacher(TeacherEntity teacher) {
+        this.teacher = teacher;
         return this;
     }
 }

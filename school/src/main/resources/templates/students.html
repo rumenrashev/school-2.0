@@ -8,8 +8,9 @@
 <div class="container">
     <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
             <div id="students-container">
-                <table class="table table-striped" style="width:100%">
-                    <thead>
+                <th:block th:if="${students.size()} > 0">
+                    <table class="table table-striped" style="width:100%">
+                        <thead>
                         <tr>
                             <td colspan="4"><h3 class="text-center">Ученици</h3></td>
                         </tr>
@@ -19,19 +20,20 @@
                             <td>Фамилия</td>
                             <td></td>
                         </tr>
-                    </thead>
+                        </thead>
                         <tr th:each="student : ${students}">
                             <td th:text="${student.firstName}"></td>
                             <td th:text="${student.middleName}"></td>
                             <td th:text="${student.lastName}"></td>
                             <td>
-                                    <a id="add-student-btn" th:href="@{'/students/edit/' + ${student.id}}">
-                                        <button type="button" class="button btn-success">Промени</button>
-                                    </a>
+                                <a id="add-student-btn" th:href="@{'/students/edit/' + ${student.id}}">
+                                    <button type="button" class="button btn-success">Промени</button>
+                                </a>
                             </td>
                         </tr>
 
-                </table>
+                    </table>
+                </th:block>
             </div>
     <div style="height: 50px"></div>
     <div id="add-student-container">

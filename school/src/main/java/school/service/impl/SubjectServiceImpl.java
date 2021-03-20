@@ -7,7 +7,6 @@ import school.constants.enumuration.SubjectEnum;
 import school.model.entity.GroupEntity;
 import school.model.entity.SubjectEntity;
 import school.model.service.SubjectServiceModel;
-import school.repository.GroupRepository;
 import school.repository.SubjectRepository;
 import school.service.SubjectService;
 
@@ -49,5 +48,13 @@ public class SubjectServiceImpl extends BaseService implements SubjectService {
     @Override
     public boolean subjectExists(SubjectEnum subject, Long groupId) {
         return subjectRepository.existsBySubjectAndGroupId(subject,groupId);
+    }
+
+    @Override
+    public SubjectServiceModel getSubjectById(Long id) {
+        return this.subjectRepository
+                .findById(id)
+                .map(e-> modelMapper.map(e,SubjectServiceModel.class))
+                .orElseThrow();
     }
 }

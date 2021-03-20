@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="wrap">
+    <th:block th:include="~{fragments/nav}"></th:block>
+    <div class="container" th:object="${bindingModel}">
+        <form th:method="delete" th:action="@{/teachers/delete}">
+            <input type="hidden" th:value="*{id}" name="id">
+            <button type="submit" value="Submit" class="btn btn-danger">Изтрий учител</button>
+        </form>
+        <form  th:method="put" th:action="@{/students/edit}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            <h1 class="text-center">Редактирай учител</h1>
+            <input type="hidden" th:value="*{id}" name="id">
+            <div class="form-group">
+                <label for="firstName" class="text-white">Име</label>
+                <input th:placeholder="*{firstName}" name="firstName" id="firstName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="middleName" class="text-white">Презиме</label>
+                <input th:placeholder="*{middleName}" name="middleName" id="middleName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="middleName" class="text-white">Фамилия</label>
+                <input th:placeholder="*{lastName}" name="lastName" id="lastName" class="form-control">
+            </div>
+            <div class="row">
+                <div class="col col-md-4">
+                    <div class="button-holder d-flex">
+                        <input type="submit" class="btn btn-info btn-lg" value="Промени"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="/fragments/footer"></th:block>
+</div>
+</body>
+</html>

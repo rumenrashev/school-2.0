@@ -1,11 +1,13 @@
 package school.model.binding;
 
 import school.constants.enumuration.SubjectEnum;
+import school.model.BaseModel;
 
-public class SubjectBindingModel {
+public class SubjectBindingModel extends BaseModel {
 
     private SubjectEnum subject;
     private Long groupId;
+    private Long teacherId;
 
     public SubjectBindingModel() {
     }
@@ -25,6 +27,15 @@ public class SubjectBindingModel {
 
     public SubjectBindingModel setGroupId(Long groupId) {
         this.groupId = groupId;
+        return this;
+    }
+
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public SubjectBindingModel setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
         return this;
     }
 }

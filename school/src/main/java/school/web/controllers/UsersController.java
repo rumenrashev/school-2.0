@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class UsersController extends BaseController {
 
     private final AdminService adminService;
+
+
     public UsersController(AdminService adminService, ModelMapper modelMapper) {
         super(modelMapper);
         this.adminService = adminService;

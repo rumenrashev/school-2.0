@@ -20,6 +20,14 @@
             </select>
             <input type="hidden" th:value="${groupId}" name="groupId">
         </div>
+        <div class="form-group">
+            <label for="teacherId" class="text-white">Избери учител</label>
+            <select  th:field="*{teacherId}"  class="form-control" id="teacherId" name="teacherId">
+                <option th:each="teacher : ${teachers}"
+                        th:text="|${teacher.firstName} ${teacher.middleName} ${teacher.lastName}|" th:value="${teacher.id}"></option>
+            </select>
+            <input type="hidden" th:value="${groupId}" name="groupId">
+        </div>
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
@@ -29,25 +37,27 @@
         </div>
     </form>
     <div style="height: 50px"> </div>
-    <table class="table table-striped" style="width:100%">
-        <thead>
-        <tr>
-            <td>Име</td>
-        </tr>
-        </thead>
-        <tr th:each="subject : ${subjects}">
-            <td th:text="${subject.subject}"></td>
-            <td>
-                <form th:method="delete" th:action="@{/subjects/delete}">
-                    <input type="hidden" th:value="*{subject.id}" name="id">
-                    <input type="hidden" th:value="${subject.groupId}" name="groupId">
-                    <button type="submit" value="Submit" class="btn btn-danger">Изтрий предмет</button>
-                </form>
-            </td>
-        </tr>
+    <th:block th:if="${subjects.size()} > 0">
+        <table class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <td>Име</td>
+            </tr>
+            </thead>
+            <tr th:each="subject : ${subjects}">
+                <td th:text="${subject.subject}"></td>
+                <td>
+                    <form th:method="delete" th:action="@{/subjects/delete}">
+                        <input type="hidden" th:value="*{subject.id}" name="id">
+                        <input type="hidden" th:value="${subject.groupId}" name="groupId">
+                        <button type="submit" value="Submit" class="btn btn-danger">Изтрий предмет</button>
+                    </form>
+                </td>
+            </tr>
 
-    </table>
-    <div style="height: 80px;"></div>
+        </table>
+        <div style="height: 80px;"></div>
+    </th:block>
 </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </body>
