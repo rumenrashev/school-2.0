@@ -2,12 +2,15 @@ package school.model.service;
 
 import school.model.BaseModel;
 
+import java.util.List;
+
 public class TeacherServiceModel extends BaseModel {
 
     private String firstName;
     private String middleName;
     private String lastName;
     private Long userId;
+    private List<SubjectServiceModel> subjects;
 
 
     public TeacherServiceModel() {
@@ -46,6 +49,15 @@ public class TeacherServiceModel extends BaseModel {
 
     public TeacherServiceModel setUserId(Long userId) {
         this.userId = userId;
+        return this;
+    }
+
+    public List<SubjectServiceModel> getSubjects() {
+        return subjects;
+    }
+
+    public TeacherServiceModel setSubjects(List<SubjectServiceModel> subjects) {
+        this.subjects = subjects;
         return this;
     }
 }

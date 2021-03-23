@@ -16,9 +16,11 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
     @Query(value = "SELECT * FROM users u " +
             "JOIN users_authorities ua on u.id = ua.user_id " +
             "JOIN authorities a on a.id = ua.authority_id " +
-            "WHERE a.authority = ?1",nativeQuery = true)
+            "WHERE a.authority = ?1 " +
+            "ORDER BY u.username",nativeQuery = true)
     List<UserEntity> findAllByAuthority(String authority);
 
     boolean existsByUsername(String username);
+
 
 }

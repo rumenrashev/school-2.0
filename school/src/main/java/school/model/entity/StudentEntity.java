@@ -12,6 +12,7 @@ public class StudentEntity extends BaseEntity {
     private String middleName;
     private String lastName;
     private GroupEntity group;
+    private UserEntity user;
 
     public StudentEntity() {
     }
@@ -50,6 +51,16 @@ public class StudentEntity extends BaseEntity {
 
     public StudentEntity setGroup(GroupEntity group) {
         this.group = group;
+        return this;
+    }
+
+    @ManyToOne
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public StudentEntity setUser(UserEntity user) {
+        this.user = user;
         return this;
     }
 }

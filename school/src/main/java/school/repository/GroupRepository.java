@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 import school.constants.enumuration.GroupLetter;
 import school.constants.enumuration.GroupNumber;
 import school.model.entity.GroupEntity;
+import school.model.entity.TeacherEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GroupRepository extends JpaRepository<GroupEntity,Long> {

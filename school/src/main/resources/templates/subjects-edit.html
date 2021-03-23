@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:include="~{fragments/head}"></th:block>
 </head>
 <body>
-
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container" th:object="${bindingModel}">
+    <form th:method="delete" th:action="@{/subjects/delete}">
+        <input type="hidden" th:value="*{id}" name="id">
+        <input type="hidden" th:value="*{groupId}" name="groupId">
+        <button type="submit" value="Submit" class="btn btn-danger">Изтрий предмет</button>
+    </form>
+    <form  th:method="put" th:action="@{/subjects/edit}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <h3 th:text="*{subject}" class="text-center text-white"></h3>
+        <input type="hidden" th:value="*{id}" name="id">
+        <input type="hidden" th:value="*{groupId}" name="groupId">
+        <input type="hidden" th:value="*{subject}" name="subject">
+        <div class="form-group">
+            <label for="teacherId" class="text-white">Промени учител учител</label>
+            <select  th:field="*{teacherId}"  class="form-control" id="teacherId" name="teacherId">
+                <option th:each="teacher : ${teachers}"
+                        th:text="|${teacher.firstName} ${teacher.middleName} ${teacher.lastName}|" th:value="${teacher.id}"></option>
+            </select>
+            <input type="hidden" th:value="*{groupId}" name="groupId">
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Промени"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="/fragments/footer"></th:block>
+</div>
 </body>
 </html>

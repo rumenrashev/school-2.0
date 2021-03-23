@@ -8,6 +8,7 @@ public class StudentViewModel extends BaseModel {
     private String middleName;
     private String lastName;
     private Long groupId;
+    private Long userId;
 
     public StudentViewModel() {
     }
@@ -45,6 +46,15 @@ public class StudentViewModel extends BaseModel {
 
     public StudentViewModel setGroupId(Long groupId) {
         this.groupId = groupId;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public StudentViewModel setUserId(Long userId) {
+        this.userId = userId;
         return this;
     }
 }

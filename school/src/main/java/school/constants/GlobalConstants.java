@@ -7,6 +7,7 @@ public class GlobalConstants {
     public static final String AUTHENTICATION_ROOT = "/authentication";
     public static final String ADMIN_ROOT = "/admin/users";
     public static final String ADMIN_ROOT_ALL = ADMIN_ROOT + ALL;
+    public static final String GROUP_ROOT = "/groups";
 
 
     //URLs
@@ -18,8 +19,8 @@ public class GlobalConstants {
 
 
     //Templates
-    public static final String LOGIN_TEMPLATE = LOGIN_URL;
-    public static final String REGISTER_TEMPLATE = REGISTER_URL;
+    public static final String LOGIN_TEMPLATE = "authentication-login";
+    public static final String REGISTER_TEMPLATE = "authentication-register";
 
     //Validation attributes
     public static final String BINDING_MODEL = "bindingModel";

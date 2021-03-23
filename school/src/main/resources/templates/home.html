@@ -1,0 +1,24 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+    <th:block th:include="~{fragments/nav}"></th:block>
+            <div th:if="${teacher} != null" th:object="${teacher}" class="container" >
+                    <h3 th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>
+                    <h5 class="text-white text-center">Учител</h5>
+                    <h5></h5>
+                <table th:if="${teacher.subjects.size()} > 0"  class="table table-striped ">
+                    <tr><td>Моите предмети</td></tr>
+                    <tr th:each="subject : ${teacher.subjects}" th:object="${subject}">
+                        <td>
+                            <a th:href="@{'/subjects/details/' + ${subject.id}}" th:text="|*{subject} *{group.number} *{group.letter} клас|" class="btn-link"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</div>
+</body>
+</html>

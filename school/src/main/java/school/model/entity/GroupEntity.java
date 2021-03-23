@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "student_gropus")
+@Table(name = "classes")
 public class GroupEntity extends BaseEntity {
 
     private GroupNumber number;

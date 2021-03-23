@@ -1,11 +1,14 @@
 package school.model.binding;
 
-public class StudentBindingModel {
+import school.model.BaseModel;
+
+public class StudentBindingModel extends BaseModel {
 
     private String firstName;
     private String middleName;
     private String lastName;
     private Long groupId;
+    private Long userId;
 
     public StudentBindingModel() {
     }
@@ -43,6 +46,15 @@ public class StudentBindingModel {
 
     public StudentBindingModel setGroupId(Long groupId) {
         this.groupId = groupId;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public StudentBindingModel setUserId(Long userId) {
+        this.userId = userId;
         return this;
     }
 }

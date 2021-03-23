@@ -1,5 +1,5 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
     <link rel="stylesheet" href="/css/my-style.css">
@@ -8,14 +8,9 @@
 <div class="wrap">
     <th:block th:include="~{fragments/nav}"></th:block>
     <div class="container">
-        <th:block sec:authorize="isAuthenticated()">
-            <h1 th:text="${#authentication.getPrincipal().getUsername()}">Home</h1>
-        </th:block>
         <th:block sec:authorize="isAnonymous()">
             <div class="container">
                 <h1>Добре дошли!</h1>
-<!--                <h1>Please, <a href="/authentication/login">login</a> or <a href="/authentication/register">register</a>.-->
-<!--                </h1>-->
             </div>
         </th:block>
     </div>

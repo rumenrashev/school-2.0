@@ -3,6 +3,7 @@ package school.model.service;
 import school.constants.enumuration.GroupLetter;
 import school.constants.enumuration.GroupNumber;
 import school.model.BaseModel;
+import school.service.GroupService;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class GroupServiceModel extends BaseModel {
 
     private GroupNumber number;
     private GroupLetter letter;
-    private List<StudentServiceModel> students;
+    private GroupServiceModel group;
 
     public GroupServiceModel() {
     }
@@ -33,12 +34,12 @@ public class GroupServiceModel extends BaseModel {
         return this;
     }
 
-    public List<StudentServiceModel> getStudents() {
-        return students;
+    public GroupServiceModel getGroup() {
+        return group;
     }
 
-    public GroupServiceModel setStudents(List<StudentServiceModel> students) {
-        this.students = students;
+    public GroupServiceModel setGroup(GroupServiceModel group) {
+        this.group = group;
         return this;
     }
 }

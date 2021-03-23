@@ -16,4 +16,10 @@ public interface SubjectService {
     boolean subjectExists(SubjectEnum subject,Long groupId);
 
     SubjectServiceModel getSubjectById(Long id);
+
+    void editSubject(SubjectServiceModel serviceModel);
+
+
+    Long getGroupIdBySubjectId(Long subjectId);
+
 }

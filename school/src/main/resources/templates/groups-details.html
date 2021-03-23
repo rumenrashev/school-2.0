@@ -8,8 +8,15 @@
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
     <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
-    <a th:href="@{'/students/add/' + ${group.id}}" ><button type="button" class="button btn-dark">Ученици</button></a>
-    <a th:href="@{'/subjects/' + ${group.id}}" ><button type="button" class="button btn-dark">Предмети</button></a>
+    <div class="container">
+        <div class="row">
+            <div class="col ">
+                <a th:href="@{'/students/all/' + ${group.id}}" ><button type="button" class="button btn-dark" style="width: 90%">Ученици</button></a>
+            </div>
+            <div class="col">
+                <a th:href="@{'/subjects/all/' + ${group.id}}" ><button type="button"  class="button btn-dark" style="width: 90%">Предмети</button></a>
+            </div>
+        </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </div>
 </body>

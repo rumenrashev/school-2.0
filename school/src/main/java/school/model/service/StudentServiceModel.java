@@ -8,6 +8,7 @@ public class StudentServiceModel extends BaseModel {
     private String middleName;
     private String lastName;
     private Long groupId;
+    private Long userId;
 
     public StudentServiceModel() {
     }
@@ -45,6 +46,15 @@ public class StudentServiceModel extends BaseModel {
 
     public StudentServiceModel setGroupId(Long groupId) {
         this.groupId = groupId;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public StudentServiceModel setUserId(Long userId) {
+        this.userId = userId;
         return this;
     }
 }

@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import school.constants.enumuration.SubjectEnum;
-import school.model.entity.GroupEntity;
 import school.model.entity.SubjectEntity;
 import school.model.service.SubjectServiceModel;
 import school.repository.SubjectRepository;
@@ -33,10 +32,10 @@ public class SubjectServiceImpl extends BaseService implements SubjectService {
 
     @Override
     public List<SubjectServiceModel> getAllSubjectsByClassId(Long id) {
-        return this.subjectRepository
-                .findAll()
+        List<SubjectEntity> subjectEntities = subjectRepository.findAllByGroupId(id);
+        return subjectEntities
                 .stream()
-                .map(e-> modelMapper.map(e,SubjectServiceModel.class))
+                .map(e -> modelMapper.map(e, SubjectServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -47,14 +46,28 @@ public class SubjectServiceImpl extends BaseService implements SubjectService {
 
     @Override
     public boolean subjectExists(SubjectEnum subject, Long groupId) {
-        return subjectRepository.existsBySubjectAndGroupId(subject,groupId);
+        return subjectRepository.existsBySubjectAndGroupId(subject, groupId);
     }
 
     @Override
     public SubjectServiceModel getSubjectById(Long id) {
         return this.subjectRepository
                 .findById(id)
-                .map(e-> modelMapper.map(e,SubjectServiceModel.class))
+                .map(e -> modelMapper.map(e, SubjectServiceModel.class))
+                .orElseThrow();
+    }
+
+    @Override
+    public void editSubject(SubjectServiceModel serviceModel) {
+        SubjectEntity entity = modelMapper.map(serviceModel, SubjectEntity.class);
+        subjectRepository.save(entity);
+    }
+
+
+    @Override
+    public Long getGroupIdBySubjectId(Long subjectId) {
+        return subjectRepository.findById(subjectId)
+                .map(s -> s.getGroup().getId())
                 .orElseThrow();
     }
 }

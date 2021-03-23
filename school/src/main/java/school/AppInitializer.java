@@ -2,25 +2,35 @@ package school;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import school.service.AuthorityService;
-import school.service.UserService;
+import school.model.entity.UserEntity;
+import school.repository.UserRepository;
+
+import java.util.List;
 
 @Component
 public class AppInitializer implements CommandLineRunner {
 
-    private final AuthorityService authorityService;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AppInitializer(AuthorityService authorityService, UserService userService) {
-        this.authorityService = authorityService;
-        this.userService = userService;
+    public AppInitializer(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        this.authorityService.seedRoles();
-        this.userService.seedTestUsers();
+        UserEntity admin = userRepository.findByUsername("admin").orElseThrow();
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        UserEntity teacher = userRepository.findByUsername("teacher").orElseThrow();
+        teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        UserEntity user = userRepository.findByUsername("user").orElseThrow();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        UserEntity student = userRepository.findByUsername("student").orElseThrow();
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        userRepository.saveAll(List.of(admin,teacher,user,student));
     }
 }

@@ -5,5 +5,6 @@ public enum AuthorityEnum {
     ADMIN,
     USER,
     TEACHER,
+    STUDENT,
 
 }

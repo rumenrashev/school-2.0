@@ -36,7 +36,7 @@ public class SubjectEntity extends BaseEntity {
         return this;
     }
 
-    @ManyToOne
+    @ManyToOne()
     public TeacherEntity getTeacher() {
         return teacher;
     }

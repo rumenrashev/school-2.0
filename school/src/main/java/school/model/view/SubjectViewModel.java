@@ -6,7 +6,8 @@ import school.model.BaseModel;
 public class SubjectViewModel extends BaseModel {
 
     private SubjectEnum subject;
-    private Long GroupId;
+    private GroupViewModel groupViewModel;
+    private TeacherViewModel teacher;
 
     public SubjectViewModel() {
     }
@@ -20,12 +21,21 @@ public class SubjectViewModel extends BaseModel {
         return this;
     }
 
-    public Long getGroupId() {
-        return GroupId;
+    public GroupViewModel getGroupViewModel() {
+        return groupViewModel;
     }
 
-    public SubjectViewModel setGroupId(Long groupId) {
-        GroupId = groupId;
+    public SubjectViewModel setGroupViewModel(GroupViewModel groupViewModel) {
+        this.groupViewModel = groupViewModel;
+        return this;
+    }
+
+    public TeacherViewModel getTeacher() {
+        return teacher;
+    }
+
+    public SubjectViewModel setTeacher(TeacherViewModel teacher) {
+        this.teacher = teacher;
         return this;
     }
 }

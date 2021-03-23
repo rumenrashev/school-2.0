@@ -6,77 +6,47 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import school.model.service.UserServiceModel;
 import school.model.view.UserViewModel;
-import school.service.AdminService;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import school.service.UserService;
 
 @Controller
-@RequestMapping("/admin/users")
+@RequestMapping("/users")
 public class UsersController extends BaseController {
 
-    private final AdminService adminService;
+    private final UserService userService;
 
-
-    public UsersController(AdminService adminService, ModelMapper modelMapper) {
+    public UsersController(ModelMapper modelMapper, UserService userService) {
         super(modelMapper);
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
-    @GetMapping("/show-users")
+    @GetMapping("/all")
     public String users(Model model) {
-        return "/admin/users/users";
+        return "users-all";
     }
 
     @DeleteMapping("/delete")
     public String delete(Long userId) {
-        this.adminService.deleteUser(userId);
-        return redirect("/admin/users/show-users");
+        this.userService.deleteUser(userId);
+        return redirect("/users");
     }
 
     @PutMapping("/add-authority")
     public String addAuthority(Long userId, String authority) {
-        adminService.addAuthority(userId, authority);
-        return redirect("/admin/users/edit-user/" + userId);
+        userService.addAuthority(userId, authority);
+        return redirect("/users/edit-user/" + userId);
     }
 
     @PutMapping("/remove-authority")
     public String removeAuthority(Long userId, String authority) {
-        adminService.removeAuthority(userId, authority);
-        return redirect("/admin/users/edit-user/" + userId);
+        userService.removeAuthority(userId, authority);
+        return redirect("users/edit-user/" + userId);
     }
 
     @GetMapping("/edit-user/{id}")
     public String editUser(@PathVariable Long id,Model model){
-        UserServiceModel userServiceModel = adminService.getUser(id);
+        UserServiceModel userServiceModel = userService.getUser(id);
         UserViewModel viewModel = modelMapper.map(userServiceModel, UserViewModel.class);
         model.addAttribute("user",viewModel);
-        return "/admin/users/edit-user";
-    }
-
-    @GetMapping("/admins")
-    @ResponseBody
-    public List<UserViewModel> admins(){
-        return mapToUserViewModel(adminService.getAllAdmins());
-    }
-
-
-    @GetMapping("/teachers")
-    @ResponseBody
-    public List<UserViewModel> teachers(){
-        return mapToUserViewModel(adminService.getAllTeachers());
-    }
-
-    @GetMapping("/users")
-    @ResponseBody
-    public List<UserViewModel> users(){
-        return mapToUserViewModel(adminService.getAllUsers());
-    }
-
-    private List<UserViewModel> mapToUserViewModel(List<UserServiceModel> serviceModels){
-        return serviceModels
-                .stream()
-                .map(s->this.modelMapper.map(s,UserViewModel.class))
-                .collect(Collectors.toList());
+        return "users-edit";
     }
 }

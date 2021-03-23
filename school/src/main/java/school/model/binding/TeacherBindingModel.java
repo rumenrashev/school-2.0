@@ -7,6 +7,7 @@ public class TeacherBindingModel extends BaseModel {
     private String firstName;
     private String middleName;
     private String lastName;
+    private Long userId;
 
     public TeacherBindingModel() {
     }
@@ -35,6 +36,15 @@ public class TeacherBindingModel extends BaseModel {
 
     public TeacherBindingModel setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public TeacherBindingModel setUserId(Long userId) {
+        this.userId = userId;
         return this;
     }
 }

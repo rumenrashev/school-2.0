@@ -1,4 +1,4 @@
-const mainUrl = 'http://localhost:8000/admin/users';
+const mainUrl = '/api';
 function createRow (user) {
     let usernameColumn = '<td>' + user.username + '</td>';
     let editButtonColumn =

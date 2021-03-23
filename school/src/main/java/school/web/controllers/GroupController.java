@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.anotation.PageTitle;
 import school.model.binding.GroupBindingModel;
 import school.model.binding.StudentBindingModel;
 import school.model.service.GroupServiceModel;
@@ -27,41 +28,58 @@ public class GroupController extends BaseController {
     private final GroupService groupService;
 
     @Autowired
-    protected GroupController(ModelMapper modelMapper, GroupService groupService) {
+    public GroupController(ModelMapper modelMapper,
+                           GroupService groupService) {
         super(modelMapper);
         this.groupService = groupService;
     }
 
     @GetMapping("/all")
+    @PageTitle(value = "Всички класове")
     public String all(Model model){
         model.addAttribute("groups",getGroups());
-        if (model.getAttribute(BINDING_MODEL) == null){
-            model.addAttribute(BINDING_MODEL,new GroupBindingModel());
-        }
         return "groups-all";
     }
 
+    @GetMapping("/add")
+    @PageTitle(value = "Добави клас")
+    public String add(Model model){
+        if (model.getAttribute(BINDING_MODEL) == null){
+            model.addAttribute(BINDING_MODEL,new GroupBindingModel());
+            model.addAttribute(ERROR,null);
+        }
+        if (model.getAttribute("messageSuccess") == null){
+            model.addAttribute("messageSuccess",null);
+        }
+        return "groups-add";
+    }
+
     @PostMapping("/add")
-    public String addGroupPost(GroupBindingModel groupBindingModel, RedirectAttributes redirectAttributes){
+    public String addGroupPost(GroupBindingModel groupBindingModel,
+                               RedirectAttributes redirectAttributes){
         GroupServiceModel serviceModel = modelMapper.map(groupBindingModel, GroupServiceModel.class);
         boolean successful = groupService.createGroup(serviceModel);
         if (!successful){
-            String error = String.format(GROUP_CREATED,groupBindingModel.getNumber(),groupBindingModel.getLetter());
+            String error = String.format(
+                    GROUP_CREATED,groupBindingModel.getNumber(),groupBindingModel.getLetter());
             redirectAttributes.addFlashAttribute(ERROR,error);
             redirectAttributes.addFlashAttribute(BINDING_MODEL,groupBindingModel);
-            return redirect("/groups/all");
+            return redirect("/groups/add");
         }
-        String messageSuccess = String.format(GROUP_EXISTS,groupBindingModel.getNumber(),groupBindingModel.getLetter());
+        String messageSuccess = String.format(GROUP_EXISTS,
+                groupBindingModel.getNumber(),groupBindingModel.getLetter());
         redirectAttributes.addFlashAttribute("messageSuccess",messageSuccess);
-        return redirect("/groups/all");
+        return redirect("/groups/add");
     }
 
     @GetMapping("/details")
-    public String groupDetails(Model model){
+    @PageTitle(value = "Клас-дейтали")
+    public String groupDetails(){
         return "groups-details";
     }
 
     @GetMapping("/details/{id}")
+    @PageTitle(value = "Клас-дейтали")
     public String groupDetailsGet(@PathVariable Long id,Model model){
         GroupServiceModel group = groupService.getGroupById(id);
         model.addAttribute(BINDING_MODEL,new StudentBindingModel());

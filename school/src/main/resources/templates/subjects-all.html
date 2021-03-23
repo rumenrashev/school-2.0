@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+<!--    <script src="/js/groups.js" type="text/javascript"></script>-->
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <h3 th:text="|${group.number} ${group.letter} клас|" class="text-white text-center"></h3>
+    <h3 class="text-white text-center">Предмети</h3>
+    <a th:href="@{'/subjects/add/' + ${group.id}}" ><button type="button" class="button btn-dark" >Добави предмет</button></a>
+    <a th:href="@{'/students/all/' + ${group.id}}" ><button type="button" class="button btn-dark" >Ученици</button></a>
+    <th:block th:if="${subjects.size()} > 0">
+        <table class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <td>Име</td>
+                <td>Преподавател</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tr th:each="subject : ${subjects}" th:object="${subject}">
+                <td th:text="*{subject}"></td>
+                <td th:object="${subject.teacher}" th:text="|*{firstName} *{middleName} *{lastName}|"></td>
+                <td>
+                    <a id="add-student-btn" th:href="@{'/subjects/edit/' + ${subject.id}}">
+                        <button type="button" class="button btn-success">Промени</button>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+        <div style="height: 80px;"></div>
+    </th:block>
+</div>
+<th:block th:include="~{/fragments/footer}"></th:block>
+</body>
+</html>

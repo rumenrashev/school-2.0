@@ -15,4 +15,9 @@ public interface TeacherService {
 
     TeacherServiceModel getTeacherById(Long id);
 
+    boolean existByUserId(Long userId);
+
+    TeacherServiceModel getTeacherByUsername(String username);
+
+    void deleteTeacher(Long id);
 }

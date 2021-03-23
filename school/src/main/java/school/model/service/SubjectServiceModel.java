@@ -6,8 +6,8 @@ import school.model.BaseModel;
 public class SubjectServiceModel extends BaseModel {
 
     private SubjectEnum subject;
-    private Long GroupId;
-    private Long teacherId;
+    private GroupServiceModel group;
+    private TeacherServiceModel teacher;
 
     public SubjectServiceModel() {
     }
@@ -21,21 +21,22 @@ public class SubjectServiceModel extends BaseModel {
         return this;
     }
 
-    public Long getGroupId() {
-        return GroupId;
+
+    public GroupServiceModel getGroup() {
+        return group;
     }
 
-    public SubjectServiceModel setGroupId(Long groupId) {
-        GroupId = groupId;
+    public SubjectServiceModel setGroup(GroupServiceModel group) {
+        this.group = group;
         return this;
     }
 
-    public Long getTeacherId() {
-        return teacherId;
+    public TeacherServiceModel getTeacher() {
+        return teacher;
     }
 
-    public SubjectServiceModel setTeacherId(Long teacherId) {
-        this.teacherId = teacherId;
+    public SubjectServiceModel setTeacher(TeacherServiceModel teacher) {
+        this.teacher = teacher;
         return this;
     }
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html   lang="en" xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+        <h3 th:object="${student}" th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>
+        <h4 th:object="${subject}" th:text="|*{subject} *{group.number} *{group.letter} клас|" class="text-white text-center"></h4>
+        <div>
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <td colspan="5" class="text-center">Оценки</td>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="mark : ${marks}" >
+                    <td th:text="${marks.indexOf(mark)} + 1"></td>
+                    <th:block th:switch="${mark.value}">
+                        <td th:case="6">Отличен(6)</td>
+                        <td th:case="5">Много добър(5)</td>
+                        <td th:case="4">Добър(4)</td>
+                        <td th:case="3">Среден(3)</td>
+                        <td th:case="2">Слаб(2)</td>
+                    </th:block>
+                    <td>
+                        <form th:method="put" th:action="@{/marks/edit/}">
+                            <select name="value" th:value="${mark.value}">
+                                <option value="6">Отличен(6)</option>
+                                <option value="5">Много добър(5)</option>
+                                <option value="4">Добър(4)</option>
+                                <option value="3">Среден(3)</option>
+                                <option value="2">Слаб(2)</option>
+                            </select>
+                            <input type="hidden" th:value="${mark.id}" name="id">
+                            <input type="hidden" th:value="${student.id}" name="studentId">
+                            <input type="hidden" th:value="${subject.id}" name="subjectId">
+                            <button class="button btn-success">Промени</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:method="delete" th:action="@{/marks/delete}">
+                            <input type="hidden" th:value="${mark.id}" name="markId">
+                            <input type="hidden" th:value="${student.id}" name="studentId">
+                            <input type="hidden" th:value="${subject.id}" name="subjectId">
+                            <button class="button btn-danger">Изтрий</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${avg} > 0.0">
+                    <td th:text="|Среден успех : ${#numbers.formatDecimal(avg,1,2)}|" colspan="4" class="text-center"></td>
+                </tr>
+                <tr th:if="${marks.size()} == 0">
+                    <td colspan="4" class="text-danger text-center">Няма оценки</td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="height: 50px"></div>
+            <form th:method="post" th:action="@{/marks/add}"
+                  class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+                <h3 class="text-center text-white">Добави оценка</h3>
+                <div class="form-group">
+                    <label for="subject" class="text-white">Избери оценка</label>
+                    <select  class="form-control" id="subject" name="value">
+                        <option value="2">Слаб(2)</option>
+                        <option value="3">Среден(3)</option>
+                        <option value="4">Добър(4)</option>
+                        <option value="5">Много добър(5)</option>
+                        <option value="6">Отличен(6)</option>
+                    </select>
+                    <input type="hidden" th:value="${student.id}" name="studentId">
+                    <input  type="hidden" th:value="${subject.id}" name="subjectId">
+                </div>
+                <div class="row">
+                    <div class="col col-md-4">
+                        <div class="button-holder d-flex">
+                            <input type="submit" class="btn btn-info btn-lg" value="Добави"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div style="height: 80px"></div>
+    </div>
+    <div style="height: 80px"></div>
+</div>
+<th:block th:include="~{/fragments/footer}"></th:block>
+</body>
+</html>

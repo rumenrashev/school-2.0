@@ -17,4 +17,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity,Long> {
             "ORDER BY s.firstName,s.middleName,s.lastName")
     List<StudentEntity> findAllByGroupId(Long groupId);
 
+    boolean existsByUser_Id(Long userId);
+
 }

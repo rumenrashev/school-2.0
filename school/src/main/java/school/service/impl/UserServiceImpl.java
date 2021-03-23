@@ -1,68 +1,104 @@
 package school.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import school.constants.enumuration.AuthorityEnum;
 import school.model.entity.AuthorityEntity;
+import school.model.entity.TeacherEntity;
 import school.model.entity.UserEntity;
+import school.model.service.UserServiceModel;
 import school.repository.AuthorityRepository;
+import school.repository.StudentRepository;
+import school.repository.TeacherRepository;
 import school.repository.UserRepository;
 import school.service.UserService;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends BaseService implements UserService {
 
-    private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
 
     public UserServiceImpl(ModelMapper modelMapper,
-                           BCryptPasswordEncoder passwordEncoder,
                            UserRepository userRepository,
-                           AuthorityRepository authorityRepository) {
+                           AuthorityRepository authorityRepository, TeacherRepository teacherRepository, StudentRepository studentRepository) {
         super(modelMapper);
-        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
+    }
+
+
+    @Override
+    public List<UserServiceModel> getAllUsers() {
+        return this.userRepository.findAll()
+                .stream()
+                .map(u-> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void seedTestUsers() {
-        if (userRepository.count() > 0){
-            return;
-        }
-        AuthorityEntity adminRole = this.authorityRepository.findByAuthority(AuthorityEnum.ADMIN.name()).get();
-        AuthorityEntity teacherRole = this.authorityRepository.findByAuthority(AuthorityEnum.TEACHER.name()).get();
-        AuthorityEntity userRole = this.authorityRepository.findByAuthority(AuthorityEnum.USER.name()).get();
-        seedAdmin(List.of(adminRole,teacherRole,userRole));
-        seedTeacher(List.of(teacherRole,userRole));
-        seedUser(List.of(userRole));
+    public void deleteUser(Long id) {
+        Optional<TeacherEntity> teacher = teacherRepository.findByUser_Id(id);
+        teacher.ifPresent(teacherEntity -> teacherRepository.save(teacherEntity.setUser(null)));
+        this.userRepository.deleteById(id);
     }
 
-    private void seedAdmin(List<AuthorityEntity> authorities){
-        UserEntity userEntity = new UserEntity()
-                .setUsername("admin")
-                .setPassword(this.passwordEncoder.encode("admin"))
-                .setAuthorities(authorities);
-        this.userRepository.saveAndFlush(userEntity);
+    @Override
+    public UserServiceModel getUser(Long id) {
+        Optional<UserEntity> optionalUserEntity = this.userRepository.findById(id);
+        return optionalUserEntity.map(e -> this.modelMapper.map(e, UserServiceModel.class)).orElseThrow();
     }
 
-    private void seedTeacher(List<AuthorityEntity> authorities){
-        UserEntity userEntity = new UserEntity()
-                .setUsername("teacher")
-                .setPassword(this.passwordEncoder.encode("teacher"))
-                .setAuthorities(authorities);
-        this.userRepository.saveAndFlush(userEntity);
+    @Override
+    @Transactional
+    public void addAuthority(Long userId,String authority) {
+        UserEntity userEntity = this.userRepository.findById(userId)
+                .orElseThrow();
+        AuthorityEntity authorityEntity = this.authorityRepository.findByAuthority(authority)
+                .orElseThrow();
+        userEntity.getAuthorities().add(authorityEntity);
     }
 
-    private void seedUser(List<AuthorityEntity> authorities){
-        UserEntity userEntity = new UserEntity()
-                .setUsername("user")
-                .setPassword(this.passwordEncoder.encode("user"))
-                .setAuthorities(authorities);
-        this.userRepository.saveAndFlush(userEntity);
+    @Override
+    @Transactional
+    public void removeAuthority(Long userId,String authority) {
+        UserEntity userEntity = this.userRepository.findById(userId)
+                .orElseThrow();
+        AuthorityEntity authorityEntity = this.authorityRepository.findByAuthority(authority)
+                .orElseThrow();
+        userEntity.getAuthorities().remove(authorityEntity);
+    }
+
+    @Override
+    public List<UserServiceModel> getAllAdmins() {
+        return this.userRepository.findAllByAuthority(AuthorityEnum.ADMIN.name())
+                .stream()
+                .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserServiceModel> getAllTeachers() {
+        return this.userRepository.findAllByAuthority(AuthorityEnum.TEACHER.name())
+                .stream()
+                .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserServiceModel> getAllStudents() {
+        return this.userRepository.findAllByAuthority(AuthorityEnum.STUDENT.name())
+                .stream()
+                .map(entity-> this.modelMapper.map(entity,UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 }

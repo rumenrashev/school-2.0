@@ -1,8 +1,7 @@
 package school.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "teachers")
@@ -12,6 +11,7 @@ public class TeacherEntity extends BaseEntity{
     private String middleName;
     private String lastName;
     private UserEntity user;
+    private List<SubjectEntity> subjects;
 
     public TeacherEntity() {
     }
@@ -43,13 +43,23 @@ public class TeacherEntity extends BaseEntity{
         return this;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     public UserEntity getUser() {
         return user;
     }
 
     public TeacherEntity setUser(UserEntity user) {
         this.user = user;
+        return this;
+    }
+
+    @OneToMany(mappedBy = "teacher")
+    public List<SubjectEntity> getSubjects() {
+        return subjects;
+    }
+
+    public TeacherEntity setSubjects(List<SubjectEntity> subjects) {
+        this.subjects = subjects;
         return this;
     }
 }
