@@ -4,9 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import school.constants.enumuration.SubjectEnum;
+import school.exception.SubjectIdNotFoundException;
 import school.model.entity.SubjectEntity;
 import school.model.service.SubjectServiceModel;
+import school.model.service.TeacherServiceModel;
 import school.repository.SubjectRepository;
+import school.repository.TeacherRepository;
 import school.service.SubjectService;
 
 import java.util.List;
@@ -16,23 +19,27 @@ import java.util.stream.Collectors;
 public class SubjectServiceImpl extends BaseService implements SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final TeacherRepository teacherRepository;
 
     @Autowired
-    public SubjectServiceImpl(ModelMapper modelMapper, SubjectRepository subjectRepository) {
+    public SubjectServiceImpl(ModelMapper modelMapper,
+                              SubjectRepository subjectRepository,
+                              TeacherRepository teacherRepository) {
         super(modelMapper);
         this.subjectRepository = subjectRepository;
+        this.teacherRepository = teacherRepository;
     }
 
     @Override
-    public void addSubject(SubjectServiceModel serviceModel) {
+    public SubjectServiceModel addSubject(SubjectServiceModel serviceModel) {
         SubjectEntity subjectEntity = modelMapper.map(serviceModel, SubjectEntity.class);
-        subjectEntity.setId(null);
-        this.subjectRepository.save(subjectEntity);
+        SubjectEntity saved = this.subjectRepository.save(subjectEntity);
+        return modelMapper.map(saved, SubjectServiceModel.class);
     }
 
     @Override
     public List<SubjectServiceModel> getAllSubjectsByClassId(Long id) {
-        List<SubjectEntity> subjectEntities = subjectRepository.findAllByGroupId(id);
+        List<SubjectEntity> subjectEntities = subjectRepository.findAllByClassroomId(id);
         return subjectEntities
                 .stream()
                 .map(e -> modelMapper.map(e, SubjectServiceModel.class))
@@ -40,13 +47,14 @@ public class SubjectServiceImpl extends BaseService implements SubjectService {
     }
 
     @Override
-    public void deleteSubject(Long id) {
+    public boolean deleteSubject(Long id) {
         subjectRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public boolean subjectExists(SubjectEnum subject, Long groupId) {
-        return subjectRepository.existsBySubjectAndGroupId(subject, groupId);
+        return subjectRepository.existsBySubjectAndClassroomId(subject, groupId);
     }
 
     @Override
@@ -54,20 +62,11 @@ public class SubjectServiceImpl extends BaseService implements SubjectService {
         return this.subjectRepository
                 .findById(id)
                 .map(e -> modelMapper.map(e, SubjectServiceModel.class))
-                .orElseThrow();
+                .orElseThrow(SubjectIdNotFoundException::new);
     }
 
     @Override
-    public void editSubject(SubjectServiceModel serviceModel) {
-        SubjectEntity entity = modelMapper.map(serviceModel, SubjectEntity.class);
-        subjectRepository.save(entity);
-    }
-
-
-    @Override
-    public Long getGroupIdBySubjectId(Long subjectId) {
-        return subjectRepository.findById(subjectId)
-                .map(s -> s.getGroup().getId())
-                .orElseThrow();
+    public SubjectServiceModel editSubject(SubjectServiceModel serviceModel) {
+        return addSubject(serviceModel);
     }
 }

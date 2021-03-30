@@ -1,17 +1,17 @@
 package school.service;
 
-import school.model.service.StudentServiceModel;
 import school.model.service.TeacherServiceModel;
+import school.model.service.UserServiceModel;
 
 import java.util.List;
 
 public interface TeacherService {
 
-    void addTeacher(TeacherServiceModel serviceModel);
+    TeacherServiceModel addTeacher(TeacherServiceModel serviceModel);
 
     List<TeacherServiceModel> getAllTeachers();
 
-    void editTeacher(TeacherServiceModel serviceModel);
+    TeacherServiceModel editTeacher(TeacherServiceModel serviceModel);
 
     TeacherServiceModel getTeacherById(Long id);
 
@@ -20,4 +20,10 @@ public interface TeacherService {
     TeacherServiceModel getTeacherByUsername(String username);
 
     void deleteTeacher(Long id);
+
+    long getTeachersCount();
+
+    List<UserServiceModel> getAllFreeTeachersUsers();
+
+
 }

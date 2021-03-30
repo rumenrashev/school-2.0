@@ -2,10 +2,12 @@ package school.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import school.model.entity.GroupEntity;
+import school.constants.enumuration.AuthorityEnum;
+import school.exception.StudentIdNotFoundException;
+import school.exception.StudentUsernameNoFound;
 import school.model.entity.StudentEntity;
 import school.model.service.StudentServiceModel;
-import school.repository.GroupRepository;
+import school.model.service.UserServiceModel;
 import school.repository.StudentRepository;
 import school.repository.UserRepository;
 import school.service.StudentService;
@@ -17,66 +19,61 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl extends BaseService implements StudentService {
 
     private final StudentRepository studentRepository;
-    private final GroupRepository groupRepository;
     private final UserRepository userRepository;
 
     public StudentServiceImpl(ModelMapper modelMapper,
-                              StudentRepository studentRepository,
-                              GroupRepository groupRepository, UserRepository userRepository) {
+                              StudentRepository studentRepository, UserRepository userRepository) {
         super(modelMapper);
         this.studentRepository = studentRepository;
-        this.groupRepository = groupRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public void addStudent(StudentServiceModel serviceModel) {
+    public StudentServiceModel addStudent(StudentServiceModel serviceModel) {
         StudentEntity studentEntity = modelMapper.map(serviceModel, StudentEntity.class);
-        studentEntity.setId(null);
-        GroupEntity groupEntity = groupRepository.findById(serviceModel.getGroupId()).orElseThrow();
-        studentEntity.setGroup(groupEntity);
-        studentRepository.saveAndFlush(studentEntity);
+        StudentEntity saved = studentRepository.saveAndFlush(studentEntity);
+        return modelMapper.map(saved,StudentServiceModel.class);
     }
 
     @Override
     public List<StudentServiceModel> getStudentsByClassId(Long groupId) {
         return studentRepository.findAllByGroupId(groupId)
                 .stream()
-                .map(e-> modelMapper.map(e,StudentServiceModel.class))
+                .map(e -> modelMapper.map(e, StudentServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public StudentServiceModel getStudentById(Long id) {
         return studentRepository.findById(id)
-                .map(e-> modelMapper.map(e, StudentServiceModel.class))
-                .orElseThrow();
+                .map(e -> modelMapper.map(e, StudentServiceModel.class))
+                .orElseThrow(StudentIdNotFoundException::new);
     }
 
     @Override
-    public void editStudent(StudentServiceModel serviceModel) {
-        StudentEntity entity = studentRepository.findById(serviceModel.getId()).orElseThrow();
-        String firstName = serviceModel.getFirstName();
-        String middleName = serviceModel.getMiddleName();
-        String lastName = serviceModel.getLastName();
-        Long userId= serviceModel.getUserId();
-        if (!firstName.isEmpty()){
-            entity.setFirstName(firstName);
-        }
-        if (!middleName.isEmpty()){
-            entity.setMiddleName(middleName);
-        }
-        if (!lastName.isEmpty()){
-            entity.setLastName(lastName);
-        }
-        if (userId != null){
-            entity.setUser(userRepository.findById(userId).orElseThrow());
-        }
-        studentRepository.save(entity);
+    public StudentServiceModel editStudent(StudentServiceModel serviceModel) {
+        return addStudent(serviceModel);
     }
 
     @Override
-    public void deleteStudent(Long id) {
+    public boolean deleteStudent(Long id) {
         studentRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public List<UserServiceModel> getAllFreeStudentUsers() {
+        return userRepository.findAllByAuthority(AuthorityEnum.STUDENT.name())
+                .stream()
+                .filter(user -> !studentRepository.existsByUser_Id(user.getId()))
+                .map(e -> modelMapper.map(e, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StudentServiceModel getStudentByUserUsername(String username) {
+        return this.studentRepository.findByUser_Username(username)
+                .map(e -> modelMapper.map(e, StudentServiceModel.class))
+                .orElseThrow(StudentUsernameNoFound::new);
     }
 }

@@ -8,13 +8,13 @@
 <div class="container" th:object="${bindingModel}">
     <form th:method="delete" th:action="@{/subjects/delete}">
         <input type="hidden" th:value="*{id}" name="id">
-        <input type="hidden" th:value="*{groupId}" name="groupId">
+        <input type="hidden" th:value="*{classroomId}" name="classroomId">
         <button type="submit" value="Submit" class="btn btn-danger">Изтрий предмет</button>
     </form>
     <form  th:method="put" th:action="@{/subjects/edit}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <h3 th:text="*{subject}" class="text-center text-white"></h3>
         <input type="hidden" th:value="*{id}" name="id">
-        <input type="hidden" th:value="*{groupId}" name="groupId">
+        <input type="hidden" th:value="*{classroomId}" name="classroomId">
         <input type="hidden" th:value="*{subject}" name="subject">
         <div class="form-group">
             <label for="teacherId" class="text-white">Промени учител учител</label>
@@ -22,7 +22,7 @@
                 <option th:each="teacher : ${teachers}"
                         th:text="|${teacher.firstName} ${teacher.middleName} ${teacher.lastName}|" th:value="${teacher.id}"></option>
             </select>
-            <input type="hidden" th:value="*{groupId}" name="groupId">
+            <input type="hidden" th:value="*{classroomId}" name="classroomId">
         </div>
         <div class="row">
             <div class="col col-md-4">

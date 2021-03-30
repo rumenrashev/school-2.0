@@ -9,7 +9,7 @@ public class TeacherServiceModel extends BaseModel {
     private String firstName;
     private String middleName;
     private String lastName;
-    private Long userId;
+    private String userUsername;
     private List<SubjectServiceModel> subjects;
 
 
@@ -43,13 +43,12 @@ public class TeacherServiceModel extends BaseModel {
         return this;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserUsername() {
+        return userUsername;
     }
 
-    public TeacherServiceModel setUserId(Long userId) {
-        this.userId = userId;
-        return this;
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 
     public List<SubjectServiceModel> getSubjects() {

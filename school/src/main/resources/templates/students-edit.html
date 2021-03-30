@@ -5,35 +5,40 @@
 </head>
 <body>
     <th:block th:include="~{fragments/nav}"></th:block>
-    <div class="container" th:object="${student}">
+    <div class="container" th:object="${bindingModel}">
         <form th:method="delete" th:action="@{/students/delete}">
             <input type="hidden" th:value="*{id}" name="studentId">
-            <input type="hidden" th:value="*{groupId}" name="groupId">
+            <input type="hidden" th:value="*{classroomId}" name="classroomId">
             <button type="submit" value="Submit" class="btn btn-danger">Изтрий ученик</button>
         </form>
         <form  th:method="put" th:action="@{/students/edit}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <h1 class="text-center">Редактирай ученик</h1>
             <input type="hidden" th:value="*{id}" name="id">
-            <input type="hidden" th:value="*{groupId}" name="groupId">
+            <input type="hidden" th:value="*{classroomId}" name="classroomId">
             <div class="form-group">
                 <label for="firstName" class="text-white">Име</label>
-                <input th:placeholder="*{firstName}" name="firstName" id="firstName" class="form-control">
+                <input th:placeholder="*{firstName}" th:value="*{firstName}" th:errorclass="bg-danger" name="firstName" id="firstName" class="form-control">
+                <small th:errors="*{firstName}" class="text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="middleName" class="text-white">Презиме</label>
-                <input th:placeholder="*{middleName}" name="middleName" id="middleName" class="form-control">
+                <input th:placeholder="*{middleName}" th:value="*{middleName}" th:errorclass="bg-danger" name="middleName" id="middleName" class="form-control">
+                <small th:errors="*{middleName}" class="text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="middleName" class="text-white">Фамилия</label>
-                <input th:placeholder="*{lastName}" name="lastName" id="lastName" class="form-control">
+                <input th:placeholder="*{lastName}" th:value="*{lastName}" th:errorclass="bg-danger" name="lastName" id="lastName" class="form-control">
+                <small th:errors="*{lastName}" class="text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="userId" class="text-white">Потребител</label>
                 <select class="form-control" th:field="*{userId}" name="userId" id="userId">
+                    <option th:if="*{userUsername != null}" th:value="*{userId}" th:text="*{userUsername}" selected></option>
                     <option value="">Няма потребител</option>
                     <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
                 </select>
             </div>
+
             <div class="row">
                 <div class="col col-md-4">
                     <div class="button-holder d-flex">

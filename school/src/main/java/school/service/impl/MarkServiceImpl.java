@@ -23,10 +23,11 @@ public class MarkServiceImpl extends BaseService implements MarkService {
     }
 
     @Override
-    public void addMark(MarkServiceModel serviceModel) {
+    public MarkServiceModel addMark(MarkServiceModel serviceModel) {
         MarkEntity entity = modelMapper.map(serviceModel, MarkEntity.class);
         entity.setId(null);
-        markRepository.save(entity);
+        MarkEntity saved = markRepository.save(entity);
+        return modelMapper.map(saved, MarkServiceModel.class);
     }
 
     @Override
@@ -38,14 +39,16 @@ public class MarkServiceImpl extends BaseService implements MarkService {
     }
 
     @Override
-    public void deleteMark(Long markId) {
+    public boolean deleteMark(Long markId) {
         markRepository.deleteById(markId);
+        return true;
     }
 
     @Override
-    public void editMark(MarkServiceModel serviceModel) {
+    public MarkServiceModel editMark(MarkServiceModel serviceModel) {
         MarkEntity entity = modelMapper.map(serviceModel, MarkEntity.class);
-        this.markRepository.save(entity);
+        MarkEntity edited = this.markRepository.save(entity);
+        return modelMapper.map(edited,MarkServiceModel.class);
     }
 
     @Override
@@ -58,4 +61,8 @@ public class MarkServiceImpl extends BaseService implements MarkService {
                 .orElse(0.00);
     }
 
+    @Override
+    public long getMarksCount() {
+        return markRepository.count();
+    }
 }

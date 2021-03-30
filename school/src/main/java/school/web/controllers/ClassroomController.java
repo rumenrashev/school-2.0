@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.anotation.PageTitle;
-import school.model.binding.GroupBindingModel;
+import school.model.binding.ClassroomBindingModel;
 import school.model.binding.StudentBindingModel;
-import school.model.service.GroupServiceModel;
-import school.model.view.GroupViewModel;
-import school.service.GroupService;
+import school.model.service.ClassroomServiceModel;
+import school.model.view.ClassroomViewModel;
+import school.service.ClassroomService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,84 +22,83 @@ import java.util.stream.Collectors;
 import static school.constants.GlobalConstants.*;
 
 @Controller
-@RequestMapping("/groups")
-public class GroupController extends BaseController {
+@RequestMapping("/classrooms")
+public class ClassroomController extends BaseController {
 
-    private final GroupService groupService;
+    private final ClassroomService classroomService;
 
     @Autowired
-    public GroupController(ModelMapper modelMapper,
-                           GroupService groupService) {
+    public ClassroomController(ModelMapper modelMapper, ClassroomService classroomService) {
         super(modelMapper);
-        this.groupService = groupService;
+        this.classroomService = classroomService;
     }
 
     @GetMapping("/all")
     @PageTitle(value = "Всички класове")
     public String all(Model model){
-        model.addAttribute("groups",getGroups());
-        return "groups-all";
+        model.addAttribute("groups",getClassrooms());
+        return "classroom-all";
     }
 
     @GetMapping("/add")
     @PageTitle(value = "Добави клас")
     public String add(Model model){
         if (model.getAttribute(BINDING_MODEL) == null){
-            model.addAttribute(BINDING_MODEL,new GroupBindingModel());
+            model.addAttribute(BINDING_MODEL,new ClassroomBindingModel());
             model.addAttribute(ERROR,null);
         }
         if (model.getAttribute("messageSuccess") == null){
             model.addAttribute("messageSuccess",null);
         }
-        return "groups-add";
+        return "classroom-add";
     }
 
     @PostMapping("/add")
-    public String addGroupPost(GroupBindingModel groupBindingModel,
+    public String addClassroomPost(ClassroomBindingModel classroomBindingModel,
                                RedirectAttributes redirectAttributes){
-        GroupServiceModel serviceModel = modelMapper.map(groupBindingModel, GroupServiceModel.class);
-        boolean successful = groupService.createGroup(serviceModel);
+        ClassroomServiceModel serviceModel = modelMapper.map(classroomBindingModel, ClassroomServiceModel.class);
+        boolean successful = classroomService.createClassroom(serviceModel);
         if (!successful){
             String error = String.format(
-                    GROUP_CREATED,groupBindingModel.getNumber(),groupBindingModel.getLetter());
+                    GROUP_CREATED, classroomBindingModel.getNumber(), classroomBindingModel.getLetter());
             redirectAttributes.addFlashAttribute(ERROR,error);
-            redirectAttributes.addFlashAttribute(BINDING_MODEL,groupBindingModel);
-            return redirect("/groups/add");
+            redirectAttributes.addFlashAttribute(BINDING_MODEL, classroomBindingModel);
+            return redirect("/classrooms/add");
         }
         String messageSuccess = String.format(GROUP_EXISTS,
-                groupBindingModel.getNumber(),groupBindingModel.getLetter());
+                classroomBindingModel.getNumber(), classroomBindingModel.getLetter());
         redirectAttributes.addFlashAttribute("messageSuccess",messageSuccess);
-        return redirect("/groups/add");
+        return redirect("/classrooms/add");
     }
 
     @GetMapping("/details")
     @PageTitle(value = "Клас-дейтали")
-    public String groupDetails(){
-        return "groups-details";
+    public String classroomDetails(){
+        return "classroom-details";
     }
 
     @GetMapping("/details/{id}")
     @PageTitle(value = "Клас-дейтали")
-    public String groupDetailsGet(@PathVariable Long id,Model model){
-        GroupServiceModel group = groupService.getGroupById(id);
+    public String classroomsDetailsGet(@PathVariable Long id,Model model){
+        ClassroomServiceModel group = classroomService.getById(id);
         model.addAttribute(BINDING_MODEL,new StudentBindingModel());
         model.addAttribute("group",group);
-        return "groups-details";
+        return "classroom-details";
     }
 
     @PostMapping("/details")
-    public String groupDetailsPost(Long groupId,RedirectAttributes redirectAttributes){
-        GroupServiceModel group = groupService.getGroupById(groupId);
+    public String classroomDetailsPost(Long groupId,RedirectAttributes redirectAttributes){
+        ClassroomServiceModel group = classroomService.getById(groupId);
         StudentBindingModel bindingModel = new StudentBindingModel();
         redirectAttributes.addFlashAttribute("group",group);
         redirectAttributes.addFlashAttribute(BINDING_MODEL,bindingModel);
-        return redirect("/groups/details");
+        return redirect("/classrooms/details");
     }
 
-    private List<GroupViewModel> getGroups(){
-        return groupService.getAllGroups()
+    private List<ClassroomViewModel> getClassrooms(){
+        return classroomService.getAll()
                 .stream()
-                .map(s -> modelMapper.map(s, GroupViewModel.class))
+                .map(s -> modelMapper.map(s, ClassroomViewModel.class))
                 .collect(Collectors.toList());
     }
 }

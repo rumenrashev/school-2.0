@@ -7,8 +7,8 @@
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
-    <h3 th:text="|${group.number} ${group.letter} клас|" class="text-white text-center"></h3>
-    <a th:href="@{'/subjects/all/' + ${group.id}}" ><button type="button" class="button btn-dark" >Всички предмети</button></a>
+    <h3 th:text="|${classroom.number} ${classroom.letter} клас|" class="text-white text-center"></h3>
+    <a th:href="@{'/subjects/all/' + ${classroom.id}}" ><button type="button" class="button btn-dark" >Всички предмети</button></a>
     <form th:method="post" th:action="@{/subjects/add}" th:object="${bindingModel}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <h3 class="text-center text-white">Добави предмет</h3>
@@ -19,7 +19,7 @@
                 <option th:each="subject : ${T(school.constants.enumuration.SubjectEnum).values()}"
                         th:value="${subject}" th:text="${subject}"></option>
             </select>
-            <input type="hidden" th:value="${group.id}" name="groupId">
+            <input type="hidden" th:value="${classroom.id}" name="classroomId">
         </div>
         <div class="form-group">
             <label for="teacherId" class="text-white">Избери учител</label>
@@ -27,7 +27,7 @@
                 <option th:each="teacher : ${teachers}"
                         th:text="|${teacher.firstName} ${teacher.middleName} ${teacher.lastName}|" th:value="${teacher.id}"></option>
             </select>
-            <input type="hidden" th:value="${group.id}" name="groupId">
+            <input type="hidden" th:value="${classroom.id}" name="classroomId">
         </div>
         <div class="row">
             <div class="col col-md-4">

@@ -6,7 +6,7 @@ import school.model.BaseModel;
 public class SubjectViewModel extends BaseModel {
 
     private SubjectEnum subject;
-    private GroupViewModel groupViewModel;
+    private ClassroomViewModel classroom;
     private TeacherViewModel teacher;
 
     public SubjectViewModel() {
@@ -21,12 +21,12 @@ public class SubjectViewModel extends BaseModel {
         return this;
     }
 
-    public GroupViewModel getGroupViewModel() {
-        return groupViewModel;
+    public ClassroomViewModel getClassroom() {
+        return classroom;
     }
 
-    public SubjectViewModel setGroupViewModel(GroupViewModel groupViewModel) {
-        this.groupViewModel = groupViewModel;
+    public SubjectViewModel setClassroom(ClassroomViewModel classroom) {
+        this.classroom = classroom;
         return this;
     }
 

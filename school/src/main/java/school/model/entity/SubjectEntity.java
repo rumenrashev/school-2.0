@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class SubjectEntity extends BaseEntity {
 
     private SubjectEnum subject;
-    private GroupEntity group;
+    private ClassroomEntity classroom;
     private TeacherEntity teacher;
 
     public SubjectEntity() {
@@ -26,13 +26,14 @@ public class SubjectEntity extends BaseEntity {
         return this;
     }
 
+
     @ManyToOne
-    public GroupEntity getGroup() {
-        return group;
+    public ClassroomEntity getClassroom() {
+        return classroom;
     }
 
-    public SubjectEntity setGroup(GroupEntity group) {
-        this.group = group;
+    public SubjectEntity setClassroom(ClassroomEntity classroom) {
+        this.classroom = classroom;
         return this;
     }
 

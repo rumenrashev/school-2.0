@@ -6,7 +6,7 @@ import school.model.BaseModel;
 public class SubjectBindingModel extends BaseModel {
 
     private SubjectEnum subject;
-    private Long groupId;
+    private Long classroomId;
     private Long teacherId;
 
     public SubjectBindingModel() {
@@ -21,12 +21,12 @@ public class SubjectBindingModel extends BaseModel {
         return this;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getClassroomId() {
+        return classroomId;
     }
 
-    public SubjectBindingModel setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public SubjectBindingModel setClassroomId(Long classroomId) {
+        this.classroomId = classroomId;
         return this;
     }
 

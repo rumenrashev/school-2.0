@@ -1,8 +1,12 @@
 package school.model.entity;
 
+import org.yaml.snakeyaml.error.Mark;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -11,8 +15,9 @@ public class StudentEntity extends BaseEntity {
     private String firstName;
     private String middleName;
     private String lastName;
-    private GroupEntity group;
+    private ClassroomEntity classroom;
     private UserEntity user;
+    private List<MarkEntity> marks;
 
     public StudentEntity() {
     }
@@ -45,12 +50,12 @@ public class StudentEntity extends BaseEntity {
     }
 
     @ManyToOne
-    public GroupEntity getGroup() {
-        return group;
+    public ClassroomEntity getClassroom() {
+        return classroom;
     }
 
-    public StudentEntity setGroup(GroupEntity group) {
-        this.group = group;
+    public StudentEntity setClassroom(ClassroomEntity classroom) {
+        this.classroom = classroom;
         return this;
     }
 
@@ -62,5 +67,14 @@ public class StudentEntity extends BaseEntity {
     public StudentEntity setUser(UserEntity user) {
         this.user = user;
         return this;
+    }
+
+    @OneToMany(mappedBy = "student")
+    public List<MarkEntity> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<MarkEntity> marks) {
+        this.marks = marks;
     }
 }

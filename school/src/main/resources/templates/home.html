@@ -1,24 +1,39 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
+    <script src="/js/home.js" type="text/javascript"></script>
 </head>
 <body>
     <th:block th:include="~{fragments/nav}"></th:block>
-            <div th:if="${teacher} != null" th:object="${teacher}" class="container" >
-                    <h3 th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>
-                    <h5 class="text-white text-center">Учител</h5>
-                    <h5></h5>
-                <table th:if="${teacher.subjects.size()} > 0"  class="table table-striped ">
-                    <tr><td>Моите предмети</td></tr>
-                    <tr th:each="subject : ${teacher.subjects}" th:object="${subject}">
-                        <td>
-                            <a th:href="@{'/subjects/details/' + ${subject.id}}" th:text="|*{subject} *{group.number} *{group.letter} клас|" class="btn-link"></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-    <th:block th:include="~{/fragments/footer}"></th:block>
+    <div class="container">
+        <h1 class="text-center text-white" th:text="${'Здравей , ' + #authentication.getPrincipal().getUsername() + ' !'}"></h1>
+        <th:block sec:authorize="hasAuthority('ADMIN')" th:include="~{fragments/admin}"></th:block>
+
+
+<!--        th:include="~{fragments/teacher}"-->
+        <th:block sec:authorize="hasAuthority('TEACHER')" >
+            <button id="teacherNames" th:click="teachersNames(2)"  class="text-center text-white">Test</button>
+<!--            <div th:object="${teacher}">-->
+<!--                <h3 id="teacherNames" th:onload="teachersNames" th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>-->
+<!--                <h5 class="text-white text-center">Учител</h5>-->
+<!--                <table th:if="${teacher.subjects.size()} > 0" class="table table-striped ">-->
+<!--                    <tr>-->
+<!--                        <td class="text-center" colspan="3">Моите предмети</td>-->
+<!--                    </tr>-->
+<!--                    <tr th:each="subject : ${teacher.subjects}" th:object="${subject}">-->
+<!--                        <td>-->
+<!--                            <a th:href="@{'/subjects/details/' + ${subject.id}}"-->
+<!--                               th:text="|*{subject} *{classroom.number} *{classroom.number} клас|" class="btn-link"></a>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+        </th:block>
+
+        <th:block th:if="${student} != null" th:include="~{fragments/student}" ></th:block>
+
+        <th:block th:include="~{/fragments/footer}"></th:block>
 </div>
 </body>
 </html>

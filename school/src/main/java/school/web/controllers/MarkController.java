@@ -19,18 +19,18 @@ import java.util.List;
 public class MarkController extends BaseController {
 
     private final MarkService markService;
-    private final StudentService studentService;
     private final SubjectService subjectService;
+    private final StudentService studentService;
 
     @Autowired
     public MarkController(ModelMapper modelMapper,
                           MarkService markService,
-                          StudentService studentService,
-                          SubjectService subjectService) {
+                          SubjectService subjectService,
+                          StudentService studentService) {
         super(modelMapper);
         this.markService = markService;
-        this.studentService = studentService;
         this.subjectService = subjectService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/all")
@@ -51,6 +51,7 @@ public class MarkController extends BaseController {
         redirectAttributes.addFlashAttribute("subjectId", subjectId);
         return redirect("/marks/all");
     }
+
 
     @PostMapping("/add")
     public String addMark(MarkBindingModel bindingModel, RedirectAttributes redirectAttributes) {

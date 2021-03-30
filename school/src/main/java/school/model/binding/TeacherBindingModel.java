@@ -2,16 +2,19 @@ package school.model.binding;
 
 import school.model.BaseModel;
 
+import javax.validation.constraints.Pattern;
+
 public class TeacherBindingModel extends BaseModel {
 
     private String firstName;
     private String middleName;
     private String lastName;
-    private Long userId;
+    private String userUsername;
 
     public TeacherBindingModel() {
     }
 
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Името трябва да е мужду 3 и 12 букви и да започва с главна буква.")
     public String getFirstName() {
         return firstName;
     }
@@ -21,6 +24,7 @@ public class TeacherBindingModel extends BaseModel {
         return this;
     }
 
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Презимето трябва да е мужду 3 и 12 букви и да започва с главна буква.")
     public String getMiddleName() {
         return middleName;
     }
@@ -30,6 +34,7 @@ public class TeacherBindingModel extends BaseModel {
         return this;
     }
 
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Фамилията трябва да е мужду 3 и 12 букви и да започва с главна буква.")
     public String getLastName() {
         return lastName;
     }
@@ -39,12 +44,11 @@ public class TeacherBindingModel extends BaseModel {
         return this;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserUsername() {
+        return userUsername;
     }
 
-    public TeacherBindingModel setUserId(Long userId) {
-        this.userId = userId;
-        return this;
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
     }
 }

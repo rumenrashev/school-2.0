@@ -17,8 +17,6 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
                            HttpServletResponse response,
                            Object handler,
                            ModelAndView modelAndView) throws Exception {
-        String title = "School";
-
         if (modelAndView == null) {
             modelAndView = new ModelAndView();
         } else {
@@ -27,10 +25,10 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
 
                 if (methodAnnotation != null) {
                     modelAndView
-                            .addObject("title", title + " - " + methodAnnotation.value());
+                            .addObject(methodAnnotation.value());
                 }else {
                     modelAndView
-                            .addObject("title", title);
+                            .addObject("title", "Училище");
                 }
             }
         }

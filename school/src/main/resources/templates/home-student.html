@@ -1,0 +1,68 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+    <script src="/js/home.js" type="text/javascript"></script>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <th:block th:include="~{fragments/user-info}"></th:block>
+<h3 th:object="${student}" th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>
+<h5 class="text-center text-white">ученик</h5>
+<table  class="table table-striped" style="width:100%">
+    <thead>
+    <tr>
+        <td colspan="4" class="text-center">Моите оценки</td>
+    </tr>
+    <tr>
+        <td>#</td>
+        <td>Оценка</td>
+        <td>Предмет</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${student.marks}">
+        <td th:text="${student.marks.indexOf(m)} + 1"></td>
+        <th:block th:switch="${m.value}">
+            <td th:case="6">Отличен(6)</td>
+            <td th:case="5">Много добър(5)</td>
+            <td th:case="4">Добър(4)</td>
+            <td th:case="3">Среден(3)</td>
+            <td th:case="2">Слаб(2)</td>
+        </th:block>
+        <td th:text="${m.subject.subject}"></td>
+    </tr>
+    </tbody>
+</table>
+<div style="height: 50px"></div>
+<table  class="table table-striped" style="width:100%">
+    <thead>
+    <tr>
+        <td colspan="3" class="text-center">Моите придмети</td>
+    </tr>
+    <tr>
+        <td>#</td>
+        <td>Предмет</td>
+        <td>Оценки</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${student.classroom.subjects}">
+        <td th:text="${student.classroom.subjects.indexOf(s)} + 1"></td>
+        <td th:text="${s.subject}"></td>
+        <td>
+            <form th:method="post" th:action="@{/marks/all}">
+                <input type="hidden" th:value="${student.id}" name="studentId">
+                <input type="hidden" th:value="${s.id}" name="subjectId">
+                <button type="submit" class="button btn-success">Оценки</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div style="height: 80px"></div>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</div>
+</body>
+</html>

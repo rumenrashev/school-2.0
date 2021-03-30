@@ -19,7 +19,7 @@
                 <th:block th:if="*{authorities.contains('ADMIN')}">
                     <td>Да</td>
                     <td>
-                        <form th:method="put" th:action="@{/admin/users/remove-authority}">
+                        <form th:method="put" th:action="@{/users/remove-authority}">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <input type="hidden" name="authority" th:value="ADMIN"/>
                             <button type="submit" value="Submit" class="btn btn-danger">Отмени</button>
@@ -29,7 +29,7 @@
                 <th:block th:unless="*{authorities.contains('ADMIN')}">
                     <td>Не</td>
                     <td>
-                        <form th:method="put" th:action="@{/admin/users/add-authority}">
+                        <form th:method="put" th:action="@{/users/add-authority}">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <input type="hidden" name="authority" th:value="ADMIN"/>
                             <button type="submit" value="Submit" class="btn btn-success">Направи</button>
@@ -42,7 +42,7 @@
                 <th:block th:if="*{authorities.contains('TEACHER')}">
                     <td>Да</td>
                     <td >
-                        <form th:method="put" th:action="@{/admin/users/remove-authority}">
+                        <form th:method="put" th:action="@{/users/remove-authority}">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <input type="hidden" name="authority" th:value="TEACHER"/>
                             <button type="submit" value="Submit" class="btn btn-danger">Отмени</button>
@@ -52,7 +52,7 @@
                 <th:block th:unless="*{authorities.contains('TEACHER')}">
                     <td>Не</td>
                     <td>
-                        <form th:method="put" th:action="@{/admin/users/add-authority}">
+                        <form th:method="put" th:action="@{/users/add-authority}">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <input type="hidden" name="authority" th:value="TEACHER"/>
                             <button type="submit" value="Submit" class="btn btn-success">Наприви</button>
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <form th:method="delete" th:action="@{/admin/users/delete}">
+                    <form th:method="delete" th:action="@{/users/delete}">
                         <input type="hidden" name="userId" th:value="${user.id}"/>
                         <button type="submit" value="Submit" class="btn btn-danger">Изтрий потребител</button>
                     </form>

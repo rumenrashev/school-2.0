@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <a href="/teachers/add">
+        <button class="button btn-dark">Добави учител</button>
+    </a>
+    <div style="height: 20px"></div>
+    <h3 class="text-white text-center">Учители</h3>
+    <div style="height: 20px"></div>
+        <th:block th:if="${teachers.size()} > 0">
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <td>Име</td>
+                    <td>Потребител</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tr th:each="teacher : ${teachers}" th:object="${teacher}">
+                    <td th:text="|*{firstName} *{middleName} *{lastName}|"></td>
+                    <td th:if="${teacher.userUsername} != null" th:text="*{userUsername}"></td>
+                    <td th:if="${teacher.userUsername} == null">-</td>
+                    <td>
+                        <a id="add-student-btn" th:href="@{'/teachers/edit/' + ${teacher.id}}">
+                            <button type="button" class="button btn-success">Промени</button>
+                        </a>
+                    </td>
+                </tr>
+
+            </table>
+        </th:block>
+    </div>
+    <div style="height: 80px"></div>
+</div>
+<th:block th:include="~{/fragments/footer}"></th:block>
+</body>
+</html>

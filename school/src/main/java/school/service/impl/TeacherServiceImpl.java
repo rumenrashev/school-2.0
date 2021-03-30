@@ -3,11 +3,12 @@ package school.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import school.model.entity.GroupEntity;
-import school.model.entity.SubjectEntity;
+import school.constants.enumuration.AuthorityEnum;
+import school.exception.TeacherNotFoundException;
 import school.model.entity.TeacherEntity;
+import school.model.entity.UserEntity;
 import school.model.service.TeacherServiceModel;
-import school.repository.SubjectRepository;
+import school.model.service.UserServiceModel;
 import school.repository.TeacherRepository;
 import school.repository.UserRepository;
 import school.service.TeacherService;
@@ -21,21 +22,24 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
-    private final SubjectRepository subjectRepository;
 
     @Autowired
-    public TeacherServiceImpl(ModelMapper modelMapper, TeacherRepository teacherRepository, UserRepository userRepository, SubjectRepository subjectRepository) {
+    public TeacherServiceImpl(ModelMapper modelMapper,
+                              TeacherRepository teacherRepository,
+                              UserRepository userRepository) {
         super(modelMapper);
         this.teacherRepository = teacherRepository;
         this.userRepository = userRepository;
-        this.subjectRepository = subjectRepository;
     }
 
     @Override
-    public void addTeacher(TeacherServiceModel serviceModel) {
+    public TeacherServiceModel addTeacher(TeacherServiceModel serviceModel) {
         TeacherEntity entity = modelMapper.map(serviceModel, TeacherEntity.class);
-        entity.setId(null);
-        teacherRepository.save(entity);
+        entity.setUser(null);
+        Optional<UserEntity> user = userRepository.findByUsername(serviceModel.getUserUsername());
+        user.ifPresent(entity::setUser);
+        entity = teacherRepository.save(entity);
+        return modelMapper.map(entity,TeacherServiceModel.class);
     }
 
     @Override
@@ -47,32 +51,15 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
     }
 
     @Override
-    public void editTeacher(TeacherServiceModel serviceModel) {
-        TeacherEntity entity = teacherRepository.findById(serviceModel.getId()).orElseThrow();
-        String firstName = serviceModel.getFirstName();
-        String middleName = serviceModel.getMiddleName();
-        String lastName = serviceModel.getLastName();
-        Long userId = serviceModel.getUserId();
-        if (!firstName.isEmpty()){
-            entity.setFirstName(firstName);
-        }
-        if (!middleName.isEmpty()){
-            entity.setMiddleName(middleName);
-        }
-        if (!lastName.isEmpty()){
-            entity.setLastName(lastName);
-        }
-        if (userId != null){
-            entity.setUser(userRepository.findById(userId).get());
-        }
-        teacherRepository.save(entity);
+    public TeacherServiceModel editTeacher(TeacherServiceModel serviceModel) {
+        return addTeacher(serviceModel);
     }
 
     @Override
     public TeacherServiceModel getTeacherById(Long id) {
         return teacherRepository.findById(id)
                 .map(e-> modelMapper.map(e,TeacherServiceModel.class))
-                .orElseThrow();
+                .orElseThrow(TeacherNotFoundException::new);
     }
 
     @Override
@@ -80,9 +67,11 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
         return teacherRepository.existsByUserId(userId);
     }
 
+
+
     @Override
     public TeacherServiceModel getTeacherByUsername(String username) {
-        TeacherEntity entity = teacherRepository.findByUser_Username(username);
+        TeacherEntity entity = teacherRepository.findByUserUsername(username);
         if (entity == null){
             return null;
         }
@@ -91,10 +80,24 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
 
     @Override
     public void deleteTeacher(Long id) {
-        subjectRepository.findAllByTeacherId(id)
+        TeacherEntity teacher = teacherRepository
+                .findById(id)
+                .orElseThrow(TeacherNotFoundException::new);
+        teacher.getSubjects().forEach(s-> s.setTeacher(null));
+        teacherRepository.deleteById(id);
+    }
+
+    @Override
+    public long getTeachersCount() {
+        return teacherRepository.count();
+    }
+
+    @Override
+    public List<UserServiceModel> getAllFreeTeachersUsers() {
+        return userRepository.findAllByAuthority(AuthorityEnum.TEACHER.name())
                 .stream()
-                .map(subjectEntity -> subjectEntity.setTeacher(null))
-                .forEach(subjectRepository::save);
-        this.teacherRepository.deleteById(id);
+                .filter(user->!teacherRepository.existsByUserId(user.getId()))
+                .map(entity-> modelMapper.map(entity,UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 }

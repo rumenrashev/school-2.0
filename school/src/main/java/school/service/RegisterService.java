@@ -1,9 +1,9 @@
 package school.service;
 
-import school.model.service.UserServiceModel;
+import school.model.service.UserAuthenticationServiceModel;
 
 public interface RegisterService {
 
-    void registerUser(UserServiceModel model);
+    UserAuthenticationServiceModel registerUser(UserAuthenticationServiceModel model);
 
 }

@@ -7,10 +7,10 @@
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container" id="all-groups-container">
-    <a th:href="@{/groups/add}">
+    <a th:href="@{/classrooms/add}">
         <button class="button btn-dark">Добави клас</button>
     </a>
-    <form th:method="post" th:action="@{/groups/details}"
+    <form th:method="post" th:action="@{/classrooms/details}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <h3 class="text-center text-white">Избери клас</h3>
         <div class="form-group">

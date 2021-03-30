@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.model.binding.UserRegisterBindingModel;
+import school.model.service.UserAuthenticationServiceModel;
 import school.model.service.UserServiceModel;
 import school.service.RegisterService;
 import school.anotation.PageTitle;
@@ -25,8 +26,7 @@ public class RegisterController extends BaseController {
     private final RegisterService registerService;
 
     @Autowired
-    public RegisterController(ModelMapper modelMapper,
-                              RegisterService registerService) {
+    public RegisterController(ModelMapper modelMapper, RegisterService registerService) {
         super(modelMapper);
         this.registerService = registerService;
     }
@@ -49,7 +49,7 @@ public class RegisterController extends BaseController {
             redirectAttributes.addFlashAttribute(BINDING_RESULT,bindingResult);
             return redirect(REGISTER_URL);
         }
-        registerService.registerUser(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
+        registerService.registerUser(modelMapper.map(userRegisterBindingModel, UserAuthenticationServiceModel.class));
         return redirect(LOGIN_URL);
     }
 

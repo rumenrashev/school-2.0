@@ -24,8 +24,8 @@ public class AuthorityServiceImpl implements AuthorityService {
         EnumSet.allOf(AuthorityEnum.class)
                 .stream()
                 .map(Enum::name)
-                .filter(a-> !this.authorityRepository.existsByAuthority(a))
-                .map(a-> new AuthorityEntity().setAuthority(a))
+                .filter(a -> !this.authorityRepository.existsByAuthority(a))
+                .map(a -> new AuthorityEntity().setAuthority(a))
                 .forEach(this.authorityRepository::save);
     }
 }

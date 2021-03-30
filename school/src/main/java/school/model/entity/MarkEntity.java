@@ -37,6 +37,7 @@ public class MarkEntity extends BaseEntity {
     }
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public SubjectEntity getSubject() {
         return subject;
     }

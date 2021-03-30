@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import school.model.service.UserAuthenticationServiceModel;
 import school.model.service.UserServiceModel;
 import school.repository.UserRepository;
 import school.service.LoginService;
@@ -21,7 +22,7 @@ public class LoginServiceImpl extends BaseService implements LoginService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username)
-                .map(entity-> this.modelMapper.map(entity, UserServiceModel.class))
+                .map(entity-> this.modelMapper.map(entity, UserAuthenticationServiceModel.class))
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

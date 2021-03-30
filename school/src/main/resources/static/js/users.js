@@ -3,7 +3,7 @@ function createRow (user) {
     let usernameColumn = '<td>' + user.username + '</td>';
     let editButtonColumn =
         '<td>' +
-        '<a href="/admin/users/edit-user/' + user.id  + '" class="btn btn-primary">Промени</a>' +
+        '<a href="/users/edit-user/' + user.id  + '" class="btn btn-primary">Промени</a>' +
         '</td>';
     let row = '<tr>' + usernameColumn + editButtonColumn + '</tr>';
     $('.user-container').append(row);

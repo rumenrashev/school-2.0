@@ -18,25 +18,21 @@
         <form th:method="POST" th:action="@{/students/add}" th:object="${bindingModel}"
               class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <h3 class="text-white text-center">Добави ученик</h3>
-            <small th:text="${successMessage}" class="text-success"></small>
             <div class="form-group">
                 <label class="text-white" for="firstName">Име</label>
-                <input th:field="*{firstName}" th:errorclass="bg-danger" id="firstName" required name="firstName"
-                       type="text" min="3" max="20" class="form-control"
-                       placeholder="Име..."/>
+                <input th:field="*{firstName}" th:errorclass="bg-danger" id="firstName" required name="firstName" type="text"  class="form-control" placeholder="Име..."/>
+                <small class="text-danger" th:errors="*{firstName}"></small>
             </div>
             <div class="form-group">
                 <label class="text-white" for="middleName">Призиме</label>
-                <input th:field="*{middleName}" th:errorclass="bg-danger" id="middleName" required name="middleName"
-                       type="text" min="3" max="20" class="form-control"
-                       placeholder="Презиме..."/>
+                <input th:field="*{middleName}" th:errorclass="bg-danger" id="middleName" required name="middleName" type="text" class="form-control" placeholder="Презиме..."/>
+                <small class="text-danger" th:errors="*{firstName}"></small>
             </div>
             <div class="form-group">
                 <label class="text-white" for="lastName">Фамилия</label>
                 <input th:field="*{lastName}" th:errorclass="bg-danger" id="lastName" required name="lastName"
-                       type="text"
-                       min="3" max="20" class="form-control"
-                       placeholder="Фамилия..."/>
+                       type="text" class="form-control" placeholder="Фамилия..."/>
+                <small class="text-danger" th:errors="*{firstName}"></small>
             </div>
             <div class="form-group">
                 <label class="text-white" for="userId">Потребител</label>
@@ -45,7 +41,8 @@
                     <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
                 </select>
             </div>
-            <input type="hidden" th:value="${group.id}" name="groupId">
+            <input type="hidden" th:value="${group.id}" name="classroomId">
+            <input type="hidden" th:value="*{userUsername}" name="userUsername">
             <div class="row">
                 <div class="col col-md-4">
                     <div class="button-holder d-flex">

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <a href="/teachers/all">
+        <button class="button btn-dark">Всички учители</button>
+    </a>
+        <form th:method="POST" th:action="@{/teachers/add}" th:object="${bindingModel}" class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            <h3 class="text-white text-center">Добави учител</h3>
+            <div class="form-group">
+                <label class="text-white" for="firstName">Име</label>
+                <input th:field="*{firstName}" th:errorclass="bg-danger" id="firstName" required name="firstName" class="form-control" placeholder="Име..."/>
+                <small th:errors="*{firstName}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label class="text-white" for="middleName">Презиме</label>
+                <input th:field="*{middleName}" th:errorclass="bg-danger" id="middleName" required name="middleName" type="text" class="form-control" placeholder="Презиме..."/>
+                <small th:errors="*{middleName}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label class="text-white" for="lastName">Фамилия</label>
+                <input th:field="*{lastName}" th:errorclass="bg-danger" id="lastName" required name="lastName" type="text" class="form-control" placeholder="Фамилия..."/>
+                <small th:errors="*{lastName}" class="text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="userUsername" class="text-white">Избери потребител</label>
+                <select  th:field="*{userUsername}" th:value="*{userUsername}"  class="form-control" id="userUsername" name="userUsername">
+                    <option value="">Няма потребител</option>
+                    <option th:each="teacher : ${teachersUsers}"
+                            th:text="${teacher.username}" th:value="${teacher.username}"></option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col col-md-4">
+                    <div class="button-holder d-flex">
+                        <input type="submit" class="btn btn-info btn-lg" value="Добави"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+<div style="height: 80px"></div>
+</div>
+<th:block th:include="~{/fragments/footer}"></th:block>
+</body>
+</html>

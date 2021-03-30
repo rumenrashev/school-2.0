@@ -6,8 +6,9 @@ import school.model.BaseModel;
 public class SubjectServiceModel extends BaseModel {
 
     private SubjectEnum subject;
-    private GroupServiceModel group;
+    private ClassroomServiceModel classroom;
     private TeacherServiceModel teacher;
+
 
     public SubjectServiceModel() {
     }
@@ -22,12 +23,12 @@ public class SubjectServiceModel extends BaseModel {
     }
 
 
-    public GroupServiceModel getGroup() {
-        return group;
+    public ClassroomServiceModel getClassroom() {
+        return classroom;
     }
 
-    public SubjectServiceModel setGroup(GroupServiceModel group) {
-        this.group = group;
+    public SubjectServiceModel setClassroom(ClassroomServiceModel classroom) {
+        this.classroom = classroom;
         return this;
     }
 

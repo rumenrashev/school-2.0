@@ -6,15 +6,17 @@ import java.util.List;
 
 public interface MarkService {
 
-    void addMark(MarkServiceModel serviceModel);
+    MarkServiceModel addMark(MarkServiceModel serviceModel);
 
     List<MarkServiceModel> getMarksByStudentAndSubject(Long subjectId,Long studentId);
 
+    boolean deleteMark(Long markId);
 
-    void deleteMark(Long markId);
-
-    void editMark(MarkServiceModel serviceModel);
+    MarkServiceModel editMark(MarkServiceModel serviceModel);
 
     Double getStudentAverageMark(List<MarkServiceModel> marks);
+
+    long getMarksCount();
+
 
 }

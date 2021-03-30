@@ -7,20 +7,21 @@
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
-    <h3 class="text-center text-white" th:text="|${subject.subject} ${subject.group.number} ${subject.group.letter} клас|"></h3>
+    <h3 class="text-center text-white" th:text="|${subject.subject} ${subject.classroom.number} ${subject.classroom.letter} клас|"></h3>
     <div>
-        <th:block th:if="${students.size()} > 0">
+        <th:block th:if="${subject.classroom.students.size()} > 0">
             <table class="table table-striped" style="width:100%">
                 <thead>
                 <tr>
                     <td colspan="5"><h3 class="text-center">Ученици</h3></td>
                 </tr>
                 </thead>
-                <tr th:each="student : ${students}">
-                    <td th:text="${students.indexOf(student)} + 1"></td>
+                <tr th:each="student : ${subject.classroom.students}">
+                    <td th:text="${subject.classroom.students.indexOf(student)} + 1"></td>
                     <td th:object="${student}" th:text="|*{firstName} *{middleName} *{lastName} |"></td>
                     <td>
                         <form th:method="post" th:action="@{/marks/all}">
+
                             <input type="hidden" th:value="${student.id}" name="studentId">
                             <input type="hidden" th:value="${subject.id}" name="subjectId">
                             <button type="submit" class="button btn-success">Оценки</button>

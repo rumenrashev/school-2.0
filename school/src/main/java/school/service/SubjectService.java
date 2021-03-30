@@ -2,24 +2,22 @@ package school.service;
 
 import school.constants.enumuration.SubjectEnum;
 import school.model.service.SubjectServiceModel;
+import school.model.service.TeacherServiceModel;
 
 import java.util.List;
 
 public interface SubjectService {
 
-    void addSubject(SubjectServiceModel serviceModel);
+    SubjectServiceModel addSubject(SubjectServiceModel serviceModel);
 
     List<SubjectServiceModel> getAllSubjectsByClassId(Long id);
 
-    void deleteSubject(Long id);
+    boolean deleteSubject(Long id);
 
-    boolean subjectExists(SubjectEnum subject,Long groupId);
+    boolean subjectExists(SubjectEnum subject, Long groupId);
 
     SubjectServiceModel getSubjectById(Long id);
 
-    void editSubject(SubjectServiceModel serviceModel);
-
-
-    Long getGroupIdBySubjectId(Long subjectId);
+    SubjectServiceModel editSubject(SubjectServiceModel serviceModel);
 
 }

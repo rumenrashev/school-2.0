@@ -1,34 +1,30 @@
-package school.model.entity;
+package school.model.binding;
 
 import school.constants.enumuration.GroupLetter;
 import school.constants.enumuration.GroupNumber;
 
-import javax.persistence.*;
-import java.util.List;
-
-@Entity
-@Table(name = "classes")
-public class GroupEntity extends BaseEntity {
+public class ClassroomBindingModel {
 
     private GroupNumber number;
     private GroupLetter letter;
 
-    @Enumerated(EnumType.ORDINAL)
+    public ClassroomBindingModel() {
+    }
+
     public GroupNumber getNumber() {
         return number;
     }
 
-    public GroupEntity setNumber(GroupNumber number) {
+    public ClassroomBindingModel setNumber(GroupNumber number) {
         this.number = number;
         return this;
     }
 
-    @Enumerated(EnumType.ORDINAL)
     public GroupLetter getLetter() {
         return letter;
     }
 
-    public GroupEntity setLetter(GroupLetter letter) {
+    public ClassroomBindingModel setLetter(GroupLetter letter) {
         this.letter = letter;
         return this;
     }

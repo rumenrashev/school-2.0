@@ -23,5 +23,6 @@ public interface UserService  {
 
     List<UserServiceModel> getAllStudents();
 
+    long getUserCount();
 
 }

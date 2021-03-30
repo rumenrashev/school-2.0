@@ -1,0 +1,30 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+    <script src="/js/home.js" type="text/javascript"></script>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container">
+    <th:block th:include="~{fragments/user-info}"></th:block>
+    <div th:object="${teacher}">
+        <h3 th:text="|*{firstName} *{middleName} *{lastName}|" class="text-center text-white"></h3>
+        <h5 class="text-white text-center">Учител</h5>
+        <table th:if="${teacher.subjects.size()} > 0" class="table table-striped ">
+            <tr>
+                <td class="text-center" colspan="3">Моите предмети</td>
+            </tr>
+            <tr th:each="subject : ${teacher.subjects}" th:object="${subject}">
+                <td>
+                    <a th:href="@{'/subjects/details/' + ${subject.id}}">
+                        <p th:text="|${subject.subject} ${subject.classroom.number} ${subject.classroom.letter} |" class="text-center text-primary "></p>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</div>
+</body>
+</html>

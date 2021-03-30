@@ -2,13 +2,16 @@ package school.model.service;
 
 import school.model.BaseModel;
 
+import java.util.List;
+
 public class StudentServiceModel extends BaseModel {
 
     private String firstName;
     private String middleName;
     private String lastName;
-    private Long groupId;
-    private Long userId;
+    private ClassroomServiceModel classroom;
+    private UserServiceModel user;
+    private List<MarkServiceModel> marks;
 
     public StudentServiceModel() {
     }
@@ -40,21 +43,27 @@ public class StudentServiceModel extends BaseModel {
         return this;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public ClassroomServiceModel getClassroom() {
+        return classroom;
     }
 
-    public StudentServiceModel setGroupId(Long groupId) {
-        this.groupId = groupId;
-        return this;
+    public void setClassroom(ClassroomServiceModel classroom) {
+        this.classroom = classroom;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserServiceModel getUser() {
+        return user;
     }
 
-    public StudentServiceModel setUserId(Long userId) {
-        this.userId = userId;
-        return this;
+    public void setUser(UserServiceModel user) {
+        this.user = user;
+    }
+
+    public List<MarkServiceModel> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<MarkServiceModel> marks) {
+        this.marks = marks;
     }
 }
