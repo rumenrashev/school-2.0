@@ -65,4 +65,5 @@ public class MarkServiceImpl extends BaseService implements MarkService {
     public long getMarksCount() {
         return markRepository.count();
     }
+
 }

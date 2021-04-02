@@ -6,8 +6,7 @@ public class GlobalConstants {
     public static final String ALL = "/**";
     public static final String AUTHENTICATION_ROOT = "/authentication";
     public static final String ADMIN_ROOT = "/admin/users";
-    public static final String ADMIN_ROOT_ALL = ADMIN_ROOT + ALL;
-    public static final String GROUP_ROOT = "/groups";
+    public static final String FORGOTTEN_PASSWORD = "/users/forgotten-password";
 
 
     //URLs
@@ -37,4 +36,17 @@ public class GlobalConstants {
 
     //Error messages
     public static final String GROUP_EXISTS = "%s %s клас е добавен.";
+
+    //Email messages
+    public static final String EMAIL_BODY =
+                    "Е-учичище%n%n" +
+                    "-----------------------------------------------%n" +
+                    "Потребителско име:%n" +
+                    "%s%n" +
+                    "-----------------------------------------------%n" +
+                    "Парола:%n" +
+                    "%s%n" +
+                    "-----------------------------------------------%n";
+    public static final String ACCOUNT_CREATED_SUBJECT = "Създаден акаунт";
+    public static final String FORGOTTEN_PASSWORD_SUBJECT = "Забравена парола";
 }

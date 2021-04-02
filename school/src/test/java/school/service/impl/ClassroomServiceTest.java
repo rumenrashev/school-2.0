@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import school.constants.enumuration.GroupLetter;
-import school.constants.enumuration.GroupNumber;
+import school.constants.enumuration.ClassroomLetter;
+import school.constants.enumuration.ClassroomNumber;
 import school.exception.ClassroomNotFountException;
 import school.model.entity.ClassroomEntity;
 import school.model.service.ClassroomServiceModel;
@@ -32,14 +32,14 @@ class ClassroomServiceTest {
     ClassroomRepository classroomRepository;
 
     final ClassroomEntity classroomEntity1 =
-            new ClassroomEntity().setNumber(GroupNumber.I).setLetter(GroupLetter.А);
+            new ClassroomEntity().setNumber(ClassroomNumber.I).setLetter(ClassroomLetter.А);
     final ClassroomEntity classroomEntity2 =
-            new ClassroomEntity().setNumber(GroupNumber.I).setLetter(GroupLetter.Б);
+            new ClassroomEntity().setNumber(ClassroomNumber.I).setLetter(ClassroomLetter.Б);
 
     final ClassroomServiceModel classroomServiceModel1 =
-            new ClassroomServiceModel().setNumber(GroupNumber.I).setLetter(GroupLetter.А);
+            new ClassroomServiceModel().setNumber(ClassroomNumber.I).setLetter(ClassroomLetter.А);
     final ClassroomServiceModel classroomServiceModel2 =
-            new ClassroomServiceModel().setNumber(GroupNumber.I).setLetter(GroupLetter.Б);
+            new ClassroomServiceModel().setNumber(ClassroomNumber.I).setLetter(ClassroomLetter.Б);
 
     @Test
     void createClassroom_ShouldReturnFalse() {
@@ -69,8 +69,8 @@ class ClassroomServiceTest {
         when(classroomRepository.findById(any()))
                 .thenReturn(Optional.of(classroomEntity1));
         ClassroomServiceModel actualServiceModel = classroomService.getById(any());
-        GroupNumber actualNumber = actualServiceModel.getNumber();
-        GroupLetter actualLetter = actualServiceModel.getLetter();
+        ClassroomNumber actualNumber = actualServiceModel.getNumber();
+        ClassroomLetter actualLetter = actualServiceModel.getLetter();
         assertEquals(classroomServiceModel1.getNumber(), actualNumber);
         assertEquals(classroomServiceModel1.getLetter(), actualLetter);
     }

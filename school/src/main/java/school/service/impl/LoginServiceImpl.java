@@ -20,9 +20,9 @@ public class LoginServiceImpl extends BaseService implements LoginService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepository.findByUsername(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return this.userRepository.findByEmail(email)
                 .map(entity-> this.modelMapper.map(entity, UserAuthenticationServiceModel.class))
-                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+                .orElseThrow(()-> new UsernameNotFoundException("Username not found"));
     }
 }

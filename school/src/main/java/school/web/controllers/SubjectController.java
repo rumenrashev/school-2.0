@@ -2,10 +2,12 @@ package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.anotation.PageTitle;
 import school.model.binding.SubjectBindingModel;
 import school.model.service.SubjectServiceModel;
 import school.model.service.TeacherServiceModel;
@@ -23,6 +25,7 @@ import static school.constants.GlobalConstants.ERROR;
 
 @Controller
 @RequestMapping("/subjects")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class SubjectController extends BaseController {
 
     private final SubjectService subjectService;
@@ -42,18 +45,19 @@ public class SubjectController extends BaseController {
         this.teacherService = teacherService;
     }
 
-    @GetMapping("/all//{groupId}")
-    public String subjects(@PathVariable Long groupId, Model model) {
-        model.addAttribute("classroom",classroomService.getById(groupId));
-        model.addAttribute("subjects",getSubjects(groupId));
+    @GetMapping("/all//{classroomId}")
+    @PageTitle(value = "Предмети")
+    public String subjects(@PathVariable Long classroomId, Model model) {
+        model.addAttribute("classroom",classroomService.getById(classroomId));
+        model.addAttribute("subjects",getSubjects(classroomId));
         return "subjects-all";
     }
 
-    @GetMapping("/add/{groupId}")
-    public String addSubjectGet(@PathVariable Long groupId,Model model){
-        List<TeacherServiceModel> teachers = teacherService.getAllTeachers();
-        model.addAttribute("teachers",teachers);
-        model.addAttribute("classroom",classroomService.getById(groupId));
+    @GetMapping("/add/{classroomId}")
+    @PageTitle(value = "Добави предмет")
+    public String addSubjectGet(@PathVariable Long classroomId,Model model){
+        model.addAttribute("teachers",teacherService.getAllTeachers());
+        model.addAttribute("classroom",classroomService.getById(classroomId));
         if (model.getAttribute(BINDING_MODEL) == null) {
             model.addAttribute(BINDING_MODEL, new SubjectBindingModel());
         }
@@ -72,10 +76,11 @@ public class SubjectController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
+    @PageTitle(value = "Редактирей предмет")
     public String editSubjectGet(@PathVariable Long id,Model model){
         SubjectServiceModel serviceModel = subjectService.getSubjectById(id);
         SubjectBindingModel bindingModel = modelMapper.map(serviceModel, SubjectBindingModel.class);
-        model.addAttribute("teachers",userService.getAllTeachers());
+        model.addAttribute("teachers",teacherService.getAllTeachers());
         if (model.getAttribute(BINDING_MODEL) == null){
             model.addAttribute(BINDING_MODEL,bindingModel);
         }
@@ -83,6 +88,7 @@ public class SubjectController extends BaseController {
     }
 
     @GetMapping("/details/{subjectId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
     public String details(@PathVariable Long subjectId,Model model){
         SubjectServiceModel subject = subjectService.getSubjectById(subjectId);
         model.addAttribute("subject",subject);

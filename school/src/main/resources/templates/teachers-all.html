@@ -23,8 +23,8 @@
                 </thead>
                 <tr th:each="teacher : ${teachers}" th:object="${teacher}">
                     <td th:text="|*{firstName} *{middleName} *{lastName}|"></td>
-                    <td th:if="${teacher.userUsername} != null" th:text="*{userUsername}"></td>
-                    <td th:if="${teacher.userUsername} == null">-</td>
+                    <td th:if="${teacher.user.email} != null" th:text="*{user.email}"></td>
+                    <td th:if="${teacher.user.email} == null">-</td>
                     <td>
                         <a id="add-student-btn" th:href="@{'/teachers/edit/' + ${teacher.id}}">
                             <button type="button" class="button btn-success">Промени</button>

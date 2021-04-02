@@ -9,8 +9,8 @@ public class TeacherServiceModel extends BaseModel {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String userUsername;
     private List<SubjectServiceModel> subjects;
+    private UserServiceModel user;
 
 
     public TeacherServiceModel() {
@@ -43,13 +43,6 @@ public class TeacherServiceModel extends BaseModel {
         return this;
     }
 
-    public String getUserUsername() {
-        return userUsername;
-    }
-
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
-    }
 
     public List<SubjectServiceModel> getSubjects() {
         return subjects;
@@ -57,6 +50,15 @@ public class TeacherServiceModel extends BaseModel {
 
     public TeacherServiceModel setSubjects(List<SubjectServiceModel> subjects) {
         this.subjects = subjects;
+        return this;
+    }
+
+    public UserServiceModel getUser() {
+        return user;
+    }
+
+    public TeacherServiceModel setUser(UserServiceModel user) {
+        this.user = user;
         return this;
     }
 }

@@ -1,8 +1,6 @@
 package school.service;
 
-import school.model.service.ClassroomServiceModel;
 import school.model.service.StudentServiceModel;
-import school.model.service.UserServiceModel;
 
 import java.util.List;
 
@@ -18,8 +16,8 @@ public interface StudentService {
 
     boolean deleteStudent(Long id);
 
-    List<UserServiceModel> getAllFreeStudentUsers();
-
     StudentServiceModel getStudentByUserUsername(String username);
+
+    boolean emailIsTheSame(StudentServiceModel serviceModel);
 
 }

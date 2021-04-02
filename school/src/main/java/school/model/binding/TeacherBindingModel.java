@@ -2,6 +2,7 @@ package school.model.binding;
 
 import school.model.BaseModel;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 public class TeacherBindingModel extends BaseModel {
@@ -9,7 +10,7 @@ public class TeacherBindingModel extends BaseModel {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String userUsername;
+    private String userEmail;
 
     public TeacherBindingModel() {
     }
@@ -44,11 +45,13 @@ public class TeacherBindingModel extends BaseModel {
         return this;
     }
 
-    public String getUserUsername() {
-        return userUsername;
+    @Email
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
+    public TeacherBindingModel setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+        return this;
     }
 }

@@ -18,14 +18,14 @@
         <div class="form-group">
             <label for="number" class="text-white font-weight-bold">Избери номер</label>
             <select class="form-control" id="number" name="number">
-                <option th:each="n :${T(school.constants.enumuration.GroupNumber).values()}" th:value="${n}"
+                <option th:each="n :${T(school.constants.enumuration.ClassroomNumber).values()}" th:value="${n}"
                         th:text="${n}"></option>
             </select>
         </div>
         <div class="form-group">
             <label for="letter" class="text-white font-weight-bold">Избери буква</label>
             <select class="form-control" id="letter" name="letter">
-                <option th:each="l :${T(school.constants.enumuration.GroupLetter).values()}" th:value="${l}"
+                <option th:each="l :${T(school.constants.enumuration.ClassroomLetter).values()}" th:value="${l}"
                         th:text="${l}"></option>
             </select>
         </div>

@@ -1,17 +1,19 @@
 package school.service;
 
+import school.model.service.UserAuthenticationServiceModel;
 import school.model.service.UserServiceModel;
 
 import java.util.List;
 
 public interface UserService  {
 
-
     List<UserServiceModel> getAllUsers();
 
     void deleteUser(Long id);
 
     UserServiceModel getUser(Long id);
+
+    UserAuthenticationServiceModel getUserWithAuthorities(Long userId);
 
     void addAuthority(Long userId,String authority);
 
@@ -25,4 +27,5 @@ public interface UserService  {
 
     long getUserCount();
 
+    boolean resendPassword(String email);
 }

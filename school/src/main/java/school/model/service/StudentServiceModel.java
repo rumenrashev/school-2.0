@@ -66,4 +66,5 @@ public class StudentServiceModel extends BaseModel {
     public void setMarks(List<MarkServiceModel> marks) {
         this.marks = marks;
     }
+
 }

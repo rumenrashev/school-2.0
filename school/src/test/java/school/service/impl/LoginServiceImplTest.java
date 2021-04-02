@@ -28,20 +28,20 @@ class LoginServiceImplTest {
     @MockBean
     UserRepository userRepository;
 
-    final UserEntity userEntity = new UserEntity().setUsername("user").setPassword("user");
+    final UserEntity userEntity = new UserEntity().setEmail("user@email.com").setPassword("user");
 
     @Test
     void loadUserByUsername_ShouldReturnUserDetails() {
-        when(userRepository.findByUsername(any()))
+        when(userRepository.findByEmail(any()))
                 .thenReturn(Optional.of(userEntity));
         UserDetails userDetails = loginService.loadUserByUsername(any());
-        assertEquals(userDetails.getUsername(), userEntity.getUsername());
+        assertEquals(userDetails.getUsername(), userEntity.getEmail());
         assertEquals(userDetails.getPassword(), userEntity.getPassword());
     }
 
     @Test
     void loadUserByUsername_ShouldThrowException() {
-        when(userRepository.findByUsername(any()))
+        when(userRepository.findByEmail(any()))
                 .thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class,
                 () -> loginService.loadUserByUsername(any()));

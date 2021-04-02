@@ -1,6 +1,6 @@
 package school.constants.enumuration;
 
-public enum  GroupLetter {
+public enum ClassroomLetter {
     А,
     Б,
     В,

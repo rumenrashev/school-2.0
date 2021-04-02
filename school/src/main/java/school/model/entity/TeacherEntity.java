@@ -1,5 +1,8 @@
 package school.model.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -43,7 +46,7 @@ public class TeacherEntity extends BaseEntity{
         return this;
     }
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     public UserEntity getUser() {
         return user;
     }

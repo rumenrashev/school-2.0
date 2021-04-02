@@ -12,7 +12,7 @@
             <tbody>
             <tr>
                 <td>Потребителско име:</td>
-                <td th:text="*{username}" colspan="2"></td>
+                <td th:text="*{email}" colspan="2"></td>
             </tr>
             <tr>
                 <td>Администратор:</td>
@@ -55,6 +55,29 @@
                         <form th:method="put" th:action="@{/users/add-authority}">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <input type="hidden" name="authority" th:value="TEACHER"/>
+                            <button type="submit" value="Submit" class="btn btn-success">Наприви</button>
+                        </form>
+                    </td>
+                </th:block >
+            </tr>
+            <tr>
+                <td>Ученик:</td>
+                <th:block th:if="*{authorities.contains('STUDENT')}">
+                    <td>Да</td>
+                    <td >
+                        <form th:method="put" th:action="@{/users/remove-authority}">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="authority" th:value="STUDENT"/>
+                            <button type="submit" value="Submit" class="btn btn-danger">Отмени</button>
+                        </form>
+                    </td>
+                </th:block>
+                <th:block th:unless="*{authorities.contains('STUDENT')}">
+                    <td>Не</td>
+                    <td>
+                        <form th:method="put" th:action="@{/users/add-authority}">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <input type="hidden" name="authority" th:value="STUDENT"/>
                             <button type="submit" value="Submit" class="btn btn-success">Наприви</button>
                         </form>
                     </td>

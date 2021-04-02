@@ -7,17 +7,17 @@ import java.util.List;
 
 public class UserAuthenticationServiceModel extends BaseModel implements UserDetails {
 
-    private String username;
+    private String email;
     private String password;
     private List<AuthorityServiceModel> authorities;
 
-    @Override
-    public String getUsername() {
-        return username;
+
+    public String getEmail() {
+        return email;
     }
 
-    public UserAuthenticationServiceModel setUsername(String username) {
-        this.username = username;
+    public UserAuthenticationServiceModel setEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -39,6 +39,11 @@ public class UserAuthenticationServiceModel extends BaseModel implements UserDet
     public UserAuthenticationServiceModel setAuthorities(List<AuthorityServiceModel> authorities) {
         this.authorities = authorities;
         return this;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override

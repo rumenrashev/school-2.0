@@ -35,9 +35,9 @@ class TeacherServiceImplTest {
     @MockBean
     UserRepository userRepository;
 
-    final String firstName = "Aaaaa";
-    final String lastName = "Bbbbb";
-    final String middleName = "Ccccc";
+    final String firstName = "Иван";
+    final String lastName = "Петров";
+    final String middleName = "Даскалов";
     final TeacherEntity teacherEntity =
             new TeacherEntity()
                     .setFirstName(firstName)
@@ -51,16 +51,6 @@ class TeacherServiceImplTest {
                     .setLastName(lastName);
 
 
-    @Test
-    void addTeacher_ShouldReturnValidUserServiceModel() {
-        when(teacherRepository.save(any()))
-                .thenReturn(teacherEntity);
-        TeacherServiceModel actualServiceModel =
-                teacherService.addTeacher(this.teacherServiceModel);
-        assertEquals(firstName, actualServiceModel.getFirstName());
-        assertEquals(middleName, actualServiceModel.getMiddleName());
-        assertEquals(lastName, actualServiceModel.getLastName());
-    }
 
     @Test
     void getAllTeachers_ShouldWorkCorrect() {
@@ -72,24 +62,6 @@ class TeacherServiceImplTest {
         assertEquals(firstName, teacherServiceModel.getFirstName());
         assertEquals(middleName, teacherServiceModel.getMiddleName());
         assertEquals(lastName, teacherServiceModel.getLastName());
-    }
-
-    @Test
-    void editTeacher_ShouldWorkCorrect() {
-        final String editFirstName = "Ddddd";
-        when(teacherRepository.save(any()))
-                .thenReturn(new TeacherEntity()
-                        .setFirstName(editFirstName)
-                        .setMiddleName(middleName)
-                        .setLastName(lastName));
-        TeacherServiceModel teacherServiceModel =
-                teacherService.editTeacher(new TeacherServiceModel()
-                .setFirstName(editFirstName)
-                .setMiddleName(middleName)
-                .setLastName(lastName));
-        assertEquals(editFirstName,teacherServiceModel.getFirstName());
-        assertEquals(middleName,teacherServiceModel.getMiddleName());
-        assertEquals(lastName,teacherServiceModel.getLastName());
     }
 
     @Test
@@ -141,24 +113,10 @@ class TeacherServiceImplTest {
     void getAllFreeTeachers_ShouldWorkCorrect(){
         final String username = "username";
         when(userRepository.findAllByAuthority(AuthorityEnum.TEACHER.name()))
-                .thenReturn(List.of(new UserEntity().setUsername(username)));
+                .thenReturn(List.of(new UserEntity().setEmail(username)));
         List<UserServiceModel> allFreeTeachersUsers = teacherService.getAllFreeTeachersUsers();
         UserServiceModel actual = allFreeTeachersUsers.get(0);
-        assertEquals(username,actual.getUsername());
+        assertEquals(username,actual.getEmail());
     }
 
-    @Test
-    void deleteTeacher_ShouldThrowException(){
-        when(teacherRepository.findById(any()))
-                .thenReturn(Optional.empty());
-        assertThrows(TeacherNotFoundException.class,
-                ()-> teacherService.deleteTeacher(any()));
-    }
-
-    @Test
-    void deleteTeacher_ShouldNotThrowException(){
-        when(teacherRepository.findById(any()))
-                .thenReturn(Optional.of(teacherEntity));
-        teacherService.deleteTeacher(any());
-    }
 }

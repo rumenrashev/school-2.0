@@ -11,15 +11,14 @@ import java.util.Optional;
 @Repository
 public interface TeacherRepository extends JpaRepository<TeacherEntity,Long> {
 
-
     boolean existsByUserId(Long userId);
 
-    TeacherEntity findByUserUsername(String username);
+    TeacherEntity findByUserEmail(String username);
 
     Optional<TeacherEntity> findByUserId(Long userId);
 
     @Query("SELECT t FROM TeacherEntity t ORDER BY t.firstName , t.middleName , t.lastName")
     List<TeacherEntity> findAll();
 
-
+    boolean existsByIdAndUserEmail(Long id, String email);
 }

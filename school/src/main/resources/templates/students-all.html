@@ -27,12 +27,19 @@
         <tr th:each="student : ${students}">
             <td th:text="${students.indexOf(student)} + 1"></td>
             <td th:object="${student}" th:text="|*{firstName} *{middleName} *{lastName} |"></td>
-            <td th:if="${student.user} != null" th:text="${student.user.username}"></td>
+            <td th:if="${student.user} != null" th:text="${student.user.email}"></td>
             <td th:if="${student.user} == null" class="text-center">-</td>
             <td sec:authorize="hasAuthority('ADMIN')">
                 <a id="add-student-btn" th:href="@{'/students/edit/' + ${student.id}}">
                     <button type="button" class="button btn-success">Промени</button>
                 </a>
+            </td>
+            <td>
+                <form th:method="delete" th:action="@{/students/delete}">
+                    <input type="hidden" th:value="*{student.id}" name="studentId">
+                    <input type="hidden" th:value="*{classroomId}" name="classroomId">
+                    <button type="submit" value="Submit" class="btn btn-danger">Изтрий ученик</button>
+                </form>
             </td>
         </tr>
         <tr th:if="${students.size()} == 0">

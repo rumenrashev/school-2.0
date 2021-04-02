@@ -1,17 +1,13 @@
 package school.service.impl;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import school.constants.enumuration.GroupLetter;
-import school.constants.enumuration.GroupNumber;
 import school.constants.enumuration.SubjectEnum;
 import school.exception.SubjectIdNotFoundException;
-import school.model.entity.ClassroomEntity;
 import school.model.entity.SubjectEntity;
 import school.model.service.SubjectServiceModel;
 import school.repository.SubjectRepository;

@@ -35,18 +35,18 @@ class UserServiceImplTest {
     final String teacherUsername = "teacher";
     final String studentUsername = "student";
     final String userUsername = "user";
-    final UserEntity adminEntity = new UserEntity().setUsername(adminUsername);
-    final UserEntity teacherEntity = new UserEntity().setUsername(teacherUsername);
-    final UserEntity studentEntity = new UserEntity().setUsername(studentUsername);
-    final UserEntity userEntity = new UserEntity().setUsername(userUsername);
-    final UserServiceModel adminSM = new UserServiceModel().setUsername(adminUsername);
-    final UserServiceModel teacherSM = new UserServiceModel().setUsername(teacherUsername);
-    final UserServiceModel studentSM = new UserServiceModel().setUsername(studentUsername);
-    final UserServiceModel userSM = new UserServiceModel().setUsername(userUsername);
+    final UserEntity adminEntity = new UserEntity().setEmail(adminUsername);
+    final UserEntity teacherEntity = new UserEntity().setEmail(teacherUsername);
+    final UserEntity studentEntity = new UserEntity().setEmail(studentUsername);
+    final UserEntity userEntity = new UserEntity().setEmail(userUsername);
+    final UserServiceModel adminSM = new UserServiceModel().setEmail(adminUsername);
+    final UserServiceModel teacherSM = new UserServiceModel().setEmail(teacherUsername);
+    final UserServiceModel studentSM = new UserServiceModel().setEmail(studentUsername);
+    final UserServiceModel userSM = new UserServiceModel().setEmail(userUsername);
 
     @Test
     void getAllUsers_ShouldReturnFourUsers(){
-        when(userRepository.findAll())
+        when(userRepository.findAllByAuthority(any()))
                 .thenReturn(List.of(adminEntity,teacherEntity,studentEntity,userEntity));
         List<UserServiceModel> allUsers = userService.getAllUsers();
         assertEquals(4,allUsers.size());
@@ -64,7 +64,7 @@ class UserServiceImplTest {
     void getUserById_ShouldWorkCorrect(){
         when(userRepository.findById(any())).thenReturn(Optional.of(userEntity));
         UserServiceModel actual = userService.getUser(any());
-        assertEquals(userSM.getUsername(),actual.getUsername());
+        assertEquals(userSM.getEmail(),actual.getEmail());
     }
 
     @Test
@@ -90,7 +90,7 @@ class UserServiceImplTest {
         List<UserServiceModel> teachers = userService.getAllTeachers();
         UserServiceModel actualTeacher = teachers.get(0);
         assertEquals(1,teachers.size());
-        assertEquals(teacherUsername,actualTeacher.getUsername());
+        assertEquals(teacherUsername,actualTeacher.getEmail());
     }
 
     @Test
@@ -100,7 +100,7 @@ class UserServiceImplTest {
         List<UserServiceModel> admins = userService.getAllAdmins();
         UserServiceModel actualAdmin = admins.get(0);
         assertEquals(1,admins.size());
-        assertEquals(adminUsername,actualAdmin.getUsername());
+        assertEquals(adminUsername,actualAdmin.getEmail());
     }
 
     @Test

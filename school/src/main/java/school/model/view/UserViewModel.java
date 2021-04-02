@@ -6,18 +6,18 @@ import java.util.List;
 
 public class UserViewModel extends BaseModel {
 
-    private String username;
+    private String email;
     private List<String> authorities;
 
     public UserViewModel() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public UserViewModel setUsername(String username) {
-        this.username = username;
+    public UserViewModel setEmail(String email) {
+        this.email = email;
         return this;
     }
 

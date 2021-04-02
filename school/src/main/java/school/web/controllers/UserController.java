@@ -5,7 +5,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.anotation.PageTitle;
+import school.model.service.UserAuthenticationServiceModel;
 import school.model.service.UserServiceModel;
 import school.model.view.UserViewModel;
 import school.service.UserService;
@@ -49,9 +51,25 @@ public class UserController extends BaseController {
     @GetMapping("/edit-user/{id}")
     @PageTitle(value = "Промени потребител")
     public String editUser(@PathVariable Long id,Model model){
-        UserServiceModel userServiceModel = userService.getUser(id);
-        UserViewModel viewModel = modelMapper.map(userServiceModel, UserViewModel.class);
-        model.addAttribute("user",viewModel);
+        UserAuthenticationServiceModel userServiceModel = userService.getUserWithAuthorities(id);
+        model.addAttribute("user",modelMapper.map(userServiceModel,UserViewModel.class));
         return "users-edit";
+    }
+
+    @GetMapping("/forgotten-password")
+    @PreAuthorize("isAnonymous()")
+    public String forgottenPasswordGet(){
+        return "forgotten-password";
+    }
+
+    @PostMapping("/forgotten-password")
+    @PreAuthorize("isAnonymous()")
+    public String forgottenPasswordPost(String email, RedirectAttributes redirectAttributes){
+        if (userService.resendPassword(email)){
+            redirectAttributes.addFlashAttribute("success",email);
+        }else {
+            redirectAttributes.addFlashAttribute("error",email);
+        }
+        return redirect("/users/forgotten-password");
     }
 }

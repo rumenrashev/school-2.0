@@ -35,14 +35,11 @@
                 <small class="text-danger" th:errors="*{firstName}"></small>
             </div>
             <div class="form-group">
-                <label class="text-white" for="userId">Потребител</label>
-                <select class="form-control" th:field="*{userId}" name="userId" id="userId">
-                    <option value="">Няма потребител</option>
-                    <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
-                </select>
+                <label class="text-white" for="userEmail">Електронна поща:</label>
+                <input th:field="*{userEmail}" type="email" th:errorclass="bg-danger" id="userEmail" required name="userEmail" class="form-control" placeholder="Eлектронна поща..."/>
+                <small th:if="${error}" class="text-danger">Имейла вече съществува</small>
             </div>
             <input type="hidden" th:value="${group.id}" name="classroomId">
-            <input type="hidden" th:value="*{userUsername}" name="userUsername">
             <div class="row">
                 <div class="col col-md-4">
                     <div class="button-holder d-flex">
@@ -51,6 +48,7 @@
                 </div>
             </div>
         </form>
+
     </div>
     <div style="height: 80px"></div>
 </div>

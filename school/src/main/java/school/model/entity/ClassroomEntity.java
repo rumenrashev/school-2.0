@@ -1,7 +1,7 @@
 package school.model.entity;
 
-import school.constants.enumuration.GroupLetter;
-import school.constants.enumuration.GroupNumber;
+import school.constants.enumuration.ClassroomLetter;
+import school.constants.enumuration.ClassroomNumber;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,27 +10,27 @@ import java.util.List;
 @Table(name = "classrooms")
 public class ClassroomEntity extends BaseEntity {
 
-    private GroupNumber number;
-    private GroupLetter letter;
+    private ClassroomNumber number;
+    private ClassroomLetter letter;
     private List<SubjectEntity> subjects;
     private List<StudentEntity> students;
 
     @Enumerated(EnumType.ORDINAL)
-    public GroupNumber getNumber() {
+    public ClassroomNumber getNumber() {
         return number;
     }
 
-    public ClassroomEntity setNumber(GroupNumber number) {
+    public ClassroomEntity setNumber(ClassroomNumber number) {
         this.number = number;
         return this;
     }
 
     @Enumerated(EnumType.ORDINAL)
-    public GroupLetter getLetter() {
+    public ClassroomLetter getLetter() {
         return letter;
     }
 
-    public ClassroomEntity setLetter(GroupLetter letter) {
+    public ClassroomEntity setLetter(ClassroomLetter letter) {
         this.letter = letter;
         return this;
     }

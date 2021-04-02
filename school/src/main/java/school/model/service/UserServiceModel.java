@@ -8,17 +8,17 @@ import java.util.List;
 
 public class UserServiceModel extends BaseModel {
 
-    private String username;
+    private String email;
 
     public UserServiceModel() {
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public UserServiceModel setUsername(String username) {
-        this.username = username;
+    public UserServiceModel setEmail(String email) {
+        this.email = email;
         return this;
     }
 }

@@ -98,14 +98,8 @@ class StudentServiceImplTest {
     }
 
     @Test
-    void deleteStudentShouldReturnTrue() {
-        boolean actual = studentService.deleteStudent(anyLong());
-        assertTrue(actual);
-    }
-
-    @Test
     void getStudentByUserUsername_ShouldReturnValidServiceModel() {
-        when(studentRepository.findByUser_Username(any()))
+        when(studentRepository.findByUserEmail(any()))
                 .thenReturn(Optional.of(studentE));
         StudentServiceModel actual = studentService.getStudentByUserUsername(any());
         assertEquals(firstName, actual.getFirstName());
@@ -115,19 +109,9 @@ class StudentServiceImplTest {
 
     @Test
     void getStudentByUserUsername_ShouldThrowException() {
-        when(studentRepository.findByUser_Username(any()))
+        when(studentRepository.findByUserEmail(any()))
                 .thenReturn(Optional.empty());
         assertThrows(StudentUsernameNoFound.class,
                 () -> studentService.getStudentByUserUsername(any()));
-    }
-
-    @Test
-    void getAllFreeStudentsShouldWorkCorrect() {
-        final String username = "username";
-        when(userRepository.findAllByAuthority(AuthorityEnum.STUDENT.name()))
-                .thenReturn(List.of(new UserEntity().setUsername(username)));
-        List<UserServiceModel> allFreeTeachersUsers = studentService.getAllFreeStudentUsers();
-        UserServiceModel actual = allFreeTeachersUsers.get(0);
-        assertEquals(username, actual.getUsername());
     }
 }

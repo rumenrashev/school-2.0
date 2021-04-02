@@ -2,6 +2,7 @@ package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,42 +11,47 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import school.anotation.PageTitle;
 import school.model.binding.StudentBindingModel;
 import school.model.service.StudentServiceModel;
-import school.model.view.StudentViewModel;
+import school.model.service.UserServiceModel;
 import school.service.ClassroomService;
+import school.service.RegisterService;
 import school.service.StudentService;
 
 import javax.validation.Valid;
 
-import static school.constants.GlobalConstants.BINDING_MODEL;
-import static school.constants.GlobalConstants.BINDING_RESULT;
+import static school.constants.GlobalConstants.*;
 
 @Controller
 @RequestMapping("/students")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class StudentController extends BaseController {
 
     private final StudentService studentService;
     private final ClassroomService classroomService;
+    private final RegisterService registerService;
 
     @Autowired
-    public StudentController(ModelMapper modelMapper, StudentService studentService, ClassroomService classroomService) {
+    public StudentController(ModelMapper modelMapper,
+                             StudentService studentService,
+                             ClassroomService classroomService,
+                             RegisterService registerService) {
         super(modelMapper);
         this.studentService = studentService;
         this.classroomService = classroomService;
+        this.registerService = registerService;
     }
 
-    @GetMapping("/all/{groupId}")
+    @GetMapping("/all/{classroomId}")
     @PageTitle(value = "Ученици")
-    public String studentsByGroupGet(@PathVariable Long groupId, Model model) {
-        model.addAttribute("classroom", classroomService.getById(groupId));
-        model.addAttribute("students", studentService.getStudentsByClassId(groupId));
+    public String studentsByGroupGet(@PathVariable Long classroomId, Model model) {
+        model.addAttribute("classroom", classroomService.getById(classroomId));
+        model.addAttribute("students", studentService.getStudentsByClassId(classroomId));
         return "students-all";
     }
 
-    @GetMapping("/add/{groupId}")
+    @GetMapping("/add/{classroomId}")
     @PageTitle(value = "Добави ученик")
-    public String addStudentGet(@PathVariable Long groupId, Model model) {
-        model.addAttribute("group", classroomService.getById(groupId));
-        model.addAttribute("users", studentService.getAllFreeStudentUsers());
+    public String addStudentGet(@PathVariable Long classroomId, Model model) {
+        model.addAttribute("group", classroomService.getById(classroomId));
         if (model.getAttribute(BINDING_MODEL) == null) {
             model.addAttribute(BINDING_MODEL, new StudentBindingModel());
         }
@@ -61,20 +67,28 @@ public class StudentController extends BaseController {
             redirectAttributes.addFlashAttribute(BINDING_RESULT, bindingResult);
             return redirect("/students/add/" + bindingModel.getClassroomId());
         }
-        StudentServiceModel serviceModel = modelMapper.map(bindingModel, StudentServiceModel.class);
-        studentService.addStudent(serviceModel);
-        return redirect("/students/all/" + serviceModel.getClassroom().getId());
+        StudentServiceModel studentServiceModel = modelMapper.map(bindingModel, StudentServiceModel.class);
+        if (registerService.isValid(bindingModel.getUserEmail())){
+            UserServiceModel userServiceModel = registerService.registerStudent(bindingModel.getUserEmail());
+            studentServiceModel.setUser(userServiceModel);
+            studentService.addStudent(studentServiceModel);
+            return redirect("/students/all/" + studentServiceModel.getClassroom().getId());
+        }
+        redirectAttributes.addFlashAttribute(BINDING_MODEL, bindingModel);
+        redirectAttributes.addFlashAttribute(ERROR, true);
+        return redirect("/students/add/" + bindingModel.getClassroomId());
+
     }
 
     @GetMapping("/edit/{studentId}")
     @PageTitle(value = "Редактирай ученик")
     public String editStudent(@PathVariable Long studentId, Model model) {
         StudentServiceModel serviceModel = studentService.getStudentById(studentId);
-        StudentViewModel bindingModel = modelMapper.map(serviceModel, StudentViewModel.class);
+        StudentBindingModel bindingModel = modelMapper.map(serviceModel, StudentBindingModel.class);
+        bindingModel.setUserEmail(serviceModel.getUser().getEmail());
         if (model.getAttribute(BINDING_MODEL) == null) {
             model.addAttribute(BINDING_MODEL, bindingModel);
         }
-        model.addAttribute("users", studentService.getAllFreeStudentUsers());
         return "students-edit";
     }
 
@@ -87,8 +101,15 @@ public class StudentController extends BaseController {
             redirectAttributes.addFlashAttribute(BINDING_RESULT, bindingResult);
             return redirect("/students/edit/" + bindingModel.getId());
         }
-        studentService.editStudent(modelMapper.map(bindingModel, StudentServiceModel.class));
-        return redirect("/students/all/" + bindingModel.getClassroomId());
+        StudentServiceModel studentServiceModel = modelMapper.map(bindingModel, StudentServiceModel.class);
+        if (studentService.emailIsTheSame(studentServiceModel) || registerService.isValid(bindingModel.getUserEmail())) {
+            studentServiceModel.setUser(registerService.registerStudent(bindingModel.getUserEmail()));
+            studentService.editStudent(studentServiceModel);
+            return redirect("/students/all/" + bindingModel.getClassroomId());
+        }
+        redirectAttributes.addFlashAttribute(BINDING_MODEL, bindingModel);
+        redirectAttributes.addFlashAttribute(ERROR, true);
+        return redirect("/students/edit/" + bindingModel.getId());
     }
 
     @DeleteMapping("/delete")
@@ -98,8 +119,11 @@ public class StudentController extends BaseController {
     }
 
     @GetMapping("/home/{username}")
-    public String home(@PathVariable String username,Model model){
-        model.addAttribute("student",studentService.getStudentByUserUsername(username));
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @PageTitle(value = "Ученик-начало")
+    public String home(@PathVariable String username, Model model) {
+        StudentServiceModel student = studentService.getStudentByUserUsername(username);
+        model.addAttribute("student", student);
         return "home-student";
     }
 }

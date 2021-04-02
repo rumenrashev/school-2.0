@@ -1,9 +1,15 @@
 package school.service;
 
-import school.model.service.UserAuthenticationServiceModel;
+import school.model.service.UserServiceModel;
 
 public interface RegisterService {
 
-    UserAuthenticationServiceModel registerUser(UserAuthenticationServiceModel model);
+
+    UserServiceModel registerStudent(String username);
+
+    UserServiceModel registerTeacher(String username);
+
+    boolean isValid(String email);
+
 
 }

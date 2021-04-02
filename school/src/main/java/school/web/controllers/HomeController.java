@@ -43,7 +43,7 @@ public class HomeController extends BaseController {
         if (authorities.contains(AuthorityEnum.STUDENT.name())) {
             return redirect("students/home/" + username);
         }
-        return "home";
+        return "home-user";
     }
 
     private List<String> getAuthorities(Authentication authentication) {

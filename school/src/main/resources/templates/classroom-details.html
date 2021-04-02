@@ -7,13 +7,13 @@
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container">
-    <h1 th:text="|${group.number} *{group.letter} клас|"></h1>
+    <h1 th:text="|${classroom.number} *{classroom.letter} клас|"></h1>
     <div class="container">
-                <a th:href="@{'/students/all/' + ${group.id}}" >
+                <a th:href="@{'/students/all/' + ${classroom.id}}" >
                     <button  class="btn btn-dark btn-lg btn-block" >Ученици</button>
                 </a>
                 <div style="height: 20px"></div>
-                <a th:href="@{'/subjects/all/' + ${group.id}}" >
+                <a th:href="@{'/subjects/all/' + ${classroom.id}}" >
                     <button class="btn btn-dark btn-lg btn-block">Предмети</button>
                 </a>
 <th:block th:include="~{/fragments/footer}"></th:block>

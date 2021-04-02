@@ -2,10 +2,12 @@ package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import school.anotation.PageTitle;
 import school.model.binding.MarkBindingModel;
 import school.model.service.MarkServiceModel;
 import school.service.MarkService;
@@ -34,6 +36,8 @@ public class MarkController extends BaseController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('TEACHER','STUDENT')")
+    @PageTitle(value = "Оценки")
     public String getMarks(Model model) {
         Long studentId = (Long) model.getAttribute("studentId");
         Long subjectId = (Long) model.getAttribute("subjectId");
@@ -46,6 +50,7 @@ public class MarkController extends BaseController {
     }
 
     @PostMapping("/all")
+    @PreAuthorize("hasAnyAuthority('TEACHER','STUDENT')")
     public String marksPost(Long studentId, Long subjectId, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("studentId", studentId);
         redirectAttributes.addFlashAttribute("subjectId", subjectId);
@@ -54,6 +59,7 @@ public class MarkController extends BaseController {
 
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public String addMark(MarkBindingModel bindingModel, RedirectAttributes redirectAttributes) {
         MarkServiceModel serviceModel = modelMapper.map(bindingModel, MarkServiceModel.class);
         markService.addMark(serviceModel);
@@ -63,6 +69,7 @@ public class MarkController extends BaseController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public String delete(Long markId, Long subjectId, Long studentId, RedirectAttributes redirectAttributes) {
         markService.deleteMark(markId);
         redirectAttributes.addFlashAttribute("studentId", studentId);
@@ -71,6 +78,7 @@ public class MarkController extends BaseController {
     }
 
     @PutMapping("/edit")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public String edit(MarkBindingModel bindingModel, RedirectAttributes redirectAttributes) {
         MarkServiceModel serviceModel = modelMapper.map(bindingModel, MarkServiceModel.class);
         markService.editMark(serviceModel);

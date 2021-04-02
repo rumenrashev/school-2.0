@@ -25,5 +25,6 @@ public interface TeacherService {
 
     List<UserServiceModel> getAllFreeTeachersUsers();
 
+    boolean emailIsSame(TeacherServiceModel teacherServiceModel);
 
 }

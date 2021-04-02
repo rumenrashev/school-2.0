@@ -1,8 +1,8 @@
 package school.model.binding;
 
-import org.hibernate.validator.constraints.Length;
 import school.model.BaseModel;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 public class StudentBindingModel extends BaseModel {
@@ -11,13 +11,12 @@ public class StudentBindingModel extends BaseModel {
     private String middleName;
     private String lastName;
     private Long classroomId;
-    private Long userId;
-    private String userUsername;
+    private String userEmail;
 
     public StudentBindingModel() {
     }
 
-    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Името трябва да е мужду 3 и 12 букви и да започва с главна буква.")
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$", message = "Името трябва да е мужду 2 и 12 букви и да започва с главна буква.")
     public String getFirstName() {
         return firstName;
     }
@@ -27,7 +26,7 @@ public class StudentBindingModel extends BaseModel {
         return this;
     }
 
-    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Презимето трябва да е мужду 3 и 12 букви и да започва с главна буква.")
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$", message = "Презимето трябва да е мужду 2 и 12 букви и да започва с главна буква.")
     public String getMiddleName() {
         return middleName;
     }
@@ -37,7 +36,7 @@ public class StudentBindingModel extends BaseModel {
         return this;
     }
 
-    @Pattern(regexp = "^[А-Я][а-я]{2,19}$",message = "Фамилия трябва да е мужду 3 и 12 букви и да започва с главна буква.")
+    @Pattern(regexp = "^[А-Я][а-я]{2,19}$", message = "Фамилия трябва да е мужду 2 и 12 букви и да започва с главна буква.")
     public String getLastName() {
         return lastName;
     }
@@ -56,20 +55,13 @@ public class StudentBindingModel extends BaseModel {
         return this;
     }
 
-    public Long getUserId() {
-        return userId;
+    @Email
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public StudentBindingModel setUserId(Long userId) {
-        this.userId = userId;
+    public StudentBindingModel setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
         return this;
-    }
-
-    public String getUserUsername() {
-        return userUsername;
-    }
-
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
     }
 }

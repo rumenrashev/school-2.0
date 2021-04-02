@@ -32,24 +32,16 @@ public class ErrorHandlingController implements ErrorController {
 
         String message = "";
 
-        if (statusCode == HttpStatus.FORBIDDEN.value()){
+
+        if (statusCode != null && statusCode == HttpStatus.FORBIDDEN.value()) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("custom","Достъп отказан");
+            modelAndView.addObject("custom", "Достъп отказан");
             modelAndView.setViewName("error");
             return modelAndView;
         }
 
-//        if (status != null) {
-//            Integer statusCode = Integer.parseInt(status.toString());
-//
-//            if (statusCode == HttpStatus.NOT_FOUND.value()) {
-//                return "errors/error-404";
-//            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//                return "errors/error-500";
-//            }
-//        }
-//        return "errors/error-page";
-        return new ModelAndView();
+        return new ModelAndView("error");
+
     }
 
     private Integer getStatusCode(HttpServletRequest httpServletRequest){

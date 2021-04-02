@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
-    <script src="/js/groups.js" type="text/javascript"></script>
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
@@ -10,23 +9,33 @@
     <a th:href="@{/classrooms/add}">
         <button class="button btn-dark">Добави клас</button>
     </a>
-    <form th:method="post" th:action="@{/classrooms/details}"
-          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
-        <h3 class="text-center text-white">Избери клас</h3>
-        <div class="form-group">
-            <select class="form-control" id="groupId" name="groupId">
-                <option th:each="group : ${groups}" th:value="${group.id}" th:text="|${group.number} ${group.letter}|"></option>
-            </select>
-        </div>
-        <div class="row">
-            <div class="col col-md-4">
-                <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Избери"/>
-                </div>
-            </div>
-        </div>
-    </form>
-    <div style="height: 80px;"></div>
+    <h3 class="text-center text-white" >Всички класове</h3>
+    <table class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>Клас</td>
+            <td>Опции</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${classrooms}">
+            <td th:text="${classrooms.indexOf(c)} + 1"></td>
+            <td th:object="${c}" th:text="|*{number} *{letter}|"></td>
+            <td>
+                <a  th:href="@{'/classrooms/details/' + ${c.id}}">
+                    <button type="button" class="button btn-success">Избери</button>
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${classrooms.size()} == 0">
+            <td colspan="4" class="text-danger text-center">Няма класове</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="height: 80px"></div>
+</div>
 </div>
 <th:block th:include="~{/fragments/footer}"></th:block>
 </body>

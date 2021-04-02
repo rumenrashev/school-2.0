@@ -1,6 +1,6 @@
 const mainUrl = '/api';
 function createRow (user) {
-    let usernameColumn = '<td>' + user.username + '</td>';
+    let usernameColumn = '<td>' + user.email + '</td>';
     let editButtonColumn =
         '<td>' +
         '<a href="/users/edit-user/' + user.id  + '" class="btn btn-primary">Промени</a>' +
@@ -30,6 +30,9 @@ $( document ).ready(function() {
     })
     $('#user-button').click(() => {
         loadUsersByGroup(mainUrl + '/users','Потребители:')
+    })
+    $('#student-button').click(() => {
+        loadUsersByGroup(mainUrl + '/students','Ученици:')
     })
 });
 

@@ -18,5 +18,4 @@ public interface MarkService {
 
     long getMarksCount();
 
-
 }

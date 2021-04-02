@@ -1,7 +1,5 @@
 package school.model.entity;
 
-import org.yaml.snakeyaml.error.Mark;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;

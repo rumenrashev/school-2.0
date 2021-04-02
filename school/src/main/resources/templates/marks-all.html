@@ -55,7 +55,7 @@
                     <td colspan="4" class="text-danger text-center">Няма оценки</td>
                 </tr>
             </table>
-            <h3 th:text="|Среден успех : ${#numbers.formatDecimal(avg,1,2)}|" class="text-white text-center" ></h3>
+            <h3 th:if="${marks.size() > 0}" th:text="|Среден успех : ${#numbers.formatDecimal(avg,1,2)}|" class="text-white text-center" ></h3>
             <div style="height: 50px"></div>
             <form sec:authorize="hasAuthority('TEACHER')" th:method="post" th:action="@{/marks/add}"
                   class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">

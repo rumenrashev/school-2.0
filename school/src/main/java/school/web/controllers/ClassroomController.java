@@ -2,6 +2,7 @@ package school.web.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import static school.constants.GlobalConstants.*;
 
 @Controller
 @RequestMapping("/classrooms")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ClassroomController extends BaseController {
 
     private final ClassroomService classroomService;
@@ -36,7 +38,7 @@ public class ClassroomController extends BaseController {
     @GetMapping("/all")
     @PageTitle(value = "Всички класове")
     public String all(Model model){
-        model.addAttribute("groups",getClassrooms());
+        model.addAttribute("classrooms",getClassrooms());
         return "classroom-all";
     }
 
@@ -67,14 +69,7 @@ public class ClassroomController extends BaseController {
         }
         String messageSuccess = String.format(GROUP_EXISTS,
                 classroomBindingModel.getNumber(), classroomBindingModel.getLetter());
-        redirectAttributes.addFlashAttribute("messageSuccess",messageSuccess);
-        return redirect("/classrooms/add");
-    }
-
-    @GetMapping("/details")
-    @PageTitle(value = "Клас-дейтали")
-    public String classroomDetails(){
-        return "classroom-details";
+        return redirect("/classrooms/all");
     }
 
     @GetMapping("/details/{id}")
@@ -82,18 +77,10 @@ public class ClassroomController extends BaseController {
     public String classroomsDetailsGet(@PathVariable Long id,Model model){
         ClassroomServiceModel group = classroomService.getById(id);
         model.addAttribute(BINDING_MODEL,new StudentBindingModel());
-        model.addAttribute("group",group);
+        model.addAttribute("classroom",group);
         return "classroom-details";
     }
 
-    @PostMapping("/details")
-    public String classroomDetailsPost(Long groupId,RedirectAttributes redirectAttributes){
-        ClassroomServiceModel group = classroomService.getById(groupId);
-        StudentBindingModel bindingModel = new StudentBindingModel();
-        redirectAttributes.addFlashAttribute("group",group);
-        redirectAttributes.addFlashAttribute(BINDING_MODEL,bindingModel);
-        return redirect("/classrooms/details");
-    }
 
     private List<ClassroomViewModel> getClassrooms(){
         return classroomService.getAll()

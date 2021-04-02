@@ -1,6 +1,6 @@
 package school.constants.enumuration;
 
-public enum GroupNumber {
+public enum ClassroomNumber {
     I,
     II,
     III,

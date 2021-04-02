@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import school.constants.enumuration.AuthorityEnum;
 import school.exception.TeacherNotFoundException;
 import school.model.entity.TeacherEntity;
-import school.model.entity.UserEntity;
 import school.model.service.TeacherServiceModel;
 import school.model.service.UserServiceModel;
 import school.repository.TeacherRepository;
@@ -14,7 +13,6 @@ import school.repository.UserRepository;
 import school.service.TeacherService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,19 +32,16 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
 
     @Override
     public TeacherServiceModel addTeacher(TeacherServiceModel serviceModel) {
-        TeacherEntity entity = modelMapper.map(serviceModel, TeacherEntity.class);
-        entity.setUser(null);
-        Optional<UserEntity> user = userRepository.findByUsername(serviceModel.getUserUsername());
-        user.ifPresent(entity::setUser);
-        entity = teacherRepository.save(entity);
-        return modelMapper.map(entity,TeacherServiceModel.class);
+        TeacherEntity teacherEntity = modelMapper.map(serviceModel, TeacherEntity.class);
+        TeacherEntity saved = teacherRepository.saveAndFlush(teacherEntity);
+        return modelMapper.map(saved, TeacherServiceModel.class);
     }
 
     @Override
     public List<TeacherServiceModel> getAllTeachers() {
         return teacherRepository.findAll()
                 .stream()
-                .map(e-> modelMapper.map(e,TeacherServiceModel.class))
+                .map(e -> modelMapper.map(e, TeacherServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +53,7 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
     @Override
     public TeacherServiceModel getTeacherById(Long id) {
         return teacherRepository.findById(id)
-                .map(e-> modelMapper.map(e,TeacherServiceModel.class))
+                .map(e -> modelMapper.map(e, TeacherServiceModel.class))
                 .orElseThrow(TeacherNotFoundException::new);
     }
 
@@ -67,15 +62,13 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
         return teacherRepository.existsByUserId(userId);
     }
 
-
-
     @Override
     public TeacherServiceModel getTeacherByUsername(String username) {
-        TeacherEntity entity = teacherRepository.findByUserUsername(username);
-        if (entity == null){
+        TeacherEntity entity = teacherRepository.findByUserEmail(username);
+        if (entity == null) {
             return null;
         }
-        return modelMapper.map(entity,TeacherServiceModel.class);
+        return modelMapper.map(entity, TeacherServiceModel.class);
     }
 
     @Override
@@ -83,8 +76,9 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
         TeacherEntity teacher = teacherRepository
                 .findById(id)
                 .orElseThrow(TeacherNotFoundException::new);
-        teacher.getSubjects().forEach(s-> s.setTeacher(null));
+        teacher.getSubjects().forEach(s -> s.setTeacher(null));
         teacherRepository.deleteById(id);
+        userRepository.deleteById(teacher.getUser().getId());
     }
 
     @Override
@@ -96,8 +90,24 @@ public class TeacherServiceImpl extends BaseService implements TeacherService {
     public List<UserServiceModel> getAllFreeTeachersUsers() {
         return userRepository.findAllByAuthority(AuthorityEnum.TEACHER.name())
                 .stream()
-                .filter(user->!teacherRepository.existsByUserId(user.getId()))
-                .map(entity-> modelMapper.map(entity,UserServiceModel.class))
+                .filter(user -> !teacherRepository.existsByUserId(user.getId()))
+                .map(entity -> modelMapper.map(entity, UserServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean emailIsSame(TeacherServiceModel teacherServiceModel) {
+        UserServiceModel userServiceModel =
+                getTeacherById(teacherServiceModel.getId()).getUser();
+        boolean emailIsSame = teacherRepository.existsByIdAndUserEmail(
+                teacherServiceModel.getId(), teacherServiceModel.getUser().getEmail());
+        if (!emailIsSame && !userRepository.existsByEmail(teacherServiceModel.getUser().getEmail())) {
+            TeacherEntity teacherEntity =
+                    modelMapper.map(teacherServiceModel, TeacherEntity.class);
+            teacherEntity.setUser(null);
+            teacherRepository.save(teacherEntity);
+            userRepository.deleteById(userServiceModel.getId());
+        }
+        return emailIsSame;
     }
 }

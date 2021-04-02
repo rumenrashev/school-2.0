@@ -11,6 +11,8 @@ import java.util.Map;
 @Component
 public class Statistic {
 
+    private final long TIME = 60000L;
+
     private final TeacherService teacherService;
     private final UserService userService;
     private final MarkService markService;
@@ -32,24 +34,24 @@ public class Statistic {
         this.classroomService = classroomService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = TIME)
     public void setTeachersCount() {
         this.teachersCount = teacherService.getTeachersCount();
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = TIME)
     private void setUsersCount() {
         this.usersCount = userService.getUserCount();
     }
 
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = TIME)
     private void setMarksCount() {
         this.marksCount = markService.getMarksCount();
     }
 
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = TIME)
     private void setClassroomsCount() {
         this.classroomsCount = classroomService.getClassroomsCount();
     }

@@ -31,12 +31,10 @@
                 <small th:errors="*{lastName}" class="text-danger"></small>
             </div>
             <div class="form-group">
-                <label for="userId" class="text-white">Потребител</label>
-                <select class="form-control" th:field="*{userId}" name="userId" id="userId">
-                    <option th:if="*{userUsername != null}" th:value="*{userId}" th:text="*{userUsername}" selected></option>
-                    <option value="">Няма потребител</option>
-                    <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
-                </select>
+                <label class="text-white" for="userEmail">Електронна поща:</label>
+                <input th:field="*{userEmail}" th:value="*{userEmail}" type="email" th:errorclass="bg-danger" id="userEmail" required name="userEmail" class="form-control"/>
+                <small th:if="${error}" class="text-danger">Имейла вече съществува</small>
+                <small th:errors="*{userEmail}" class="text-danger"></small>
             </div>
 
             <div class="row">

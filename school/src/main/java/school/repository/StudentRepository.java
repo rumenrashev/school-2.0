@@ -21,9 +21,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity,Long> {
 
     boolean existsByUser_Id(Long userId);
 
-    Optional<StudentEntity> findByUser_Username(String username);
+    Optional<StudentEntity> findByUserEmail(String username);
 
-//    @Query(value = "SELECT u FROM UserEntity u " +
-//            "WHERE u.authorities == ?1")
-//    List<UserEntity> findAllFreeStudentsUsers();
+    boolean existsByIdAndUserEmail(Long id, String user_username);
 }

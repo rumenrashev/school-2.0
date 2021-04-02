@@ -19,15 +19,11 @@ import java.util.stream.Collectors;
 public class SubjectServiceImpl extends BaseService implements SubjectService {
 
     private final SubjectRepository subjectRepository;
-    private final TeacherRepository teacherRepository;
 
     @Autowired
-    public SubjectServiceImpl(ModelMapper modelMapper,
-                              SubjectRepository subjectRepository,
-                              TeacherRepository teacherRepository) {
+    public SubjectServiceImpl(ModelMapper modelMapper, SubjectRepository subjectRepository) {
         super(modelMapper);
         this.subjectRepository = subjectRepository;
-        this.teacherRepository = teacherRepository;
     }
 
     @Override

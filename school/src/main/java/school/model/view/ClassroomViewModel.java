@@ -1,31 +1,31 @@
 package school.model.view;
 
-import school.constants.enumuration.GroupLetter;
-import school.constants.enumuration.GroupNumber;
+import school.constants.enumuration.ClassroomLetter;
+import school.constants.enumuration.ClassroomNumber;
 import school.model.BaseModel;
 
 public class ClassroomViewModel extends BaseModel {
 
-    private GroupNumber number;
-    private GroupLetter letter;
+    private ClassroomNumber number;
+    private ClassroomLetter letter;
 
     public ClassroomViewModel() {
     }
 
-    public GroupNumber getNumber() {
+    public ClassroomNumber getNumber() {
         return number;
     }
 
-    public ClassroomViewModel setNumber(GroupNumber number) {
+    public ClassroomViewModel setNumber(ClassroomNumber number) {
         this.number = number;
         return this;
     }
 
-    public GroupLetter getLetter() {
+    public ClassroomLetter getLetter() {
         return letter;
     }
 
-    public ClassroomViewModel setLetter(GroupLetter letter) {
+    public ClassroomViewModel setLetter(ClassroomLetter letter) {
         this.letter = letter;
         return this;
     }

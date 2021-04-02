@@ -1,35 +1,35 @@
 package school.model.service;
 
-import school.constants.enumuration.GroupLetter;
-import school.constants.enumuration.GroupNumber;
+import school.constants.enumuration.ClassroomLetter;
+import school.constants.enumuration.ClassroomNumber;
 import school.model.BaseModel;
 
 import java.util.List;
 
 public class ClassroomServiceModel extends BaseModel {
 
-    private GroupNumber number;
-    private GroupLetter letter;
+    private ClassroomNumber number;
+    private ClassroomLetter letter;
     private List<SubjectServiceModel> subjects;
     private List<StudentServiceModel> students;
 
     public ClassroomServiceModel() {
     }
 
-    public GroupNumber getNumber() {
+    public ClassroomNumber getNumber() {
         return number;
     }
 
-    public ClassroomServiceModel setNumber(GroupNumber number) {
+    public ClassroomServiceModel setNumber(ClassroomNumber number) {
         this.number = number;
         return this;
     }
 
-    public GroupLetter getLetter() {
+    public ClassroomLetter getLetter() {
         return letter;
     }
 
-    public ClassroomServiceModel setLetter(GroupLetter letter) {
+    public ClassroomServiceModel setLetter(ClassroomLetter letter) {
         this.letter = letter;
         return this;
     }

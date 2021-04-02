@@ -14,9 +14,4 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
 
     List<SubjectEntity> findAllByClassroomId(Long groupId);
 
-    List<SubjectEntity> findAllByTeacherUserUsername(String teacher_user_username);
-
-    List<SubjectEntity> findAllByTeacherId(Long id);
-
-
 }
