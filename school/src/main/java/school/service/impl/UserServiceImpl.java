@@ -1,6 +1,10 @@
 package school.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
+import org.passay.PasswordGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import school.constants.enumuration.AuthorityEnum;
 import school.exception.AuthorityNotFoundException;
@@ -29,17 +33,23 @@ public class UserServiceImpl extends BaseService implements UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final TeacherRepository teacherRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordGenerator passwordGenerator;
     private final EmailSender emailSender;
 
     public UserServiceImpl(ModelMapper modelMapper,
                            UserRepository userRepository,
                            AuthorityRepository authorityRepository,
                            TeacherRepository teacherRepository,
+                           PasswordEncoder passwordEncoder,
+                           PasswordGenerator passwordGenerator,
                            EmailSender emailSender) {
         super(modelMapper);
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.teacherRepository = teacherRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.passwordGenerator = passwordGenerator;
         this.emailSender = emailSender;
     }
 
@@ -125,9 +135,16 @@ public class UserServiceImpl extends BaseService implements UserService {
     public boolean resendPassword(String email) {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
         if (optionalUserEntity.isPresent()){
+            CharacterRule digit = new CharacterRule(EnglishCharacterData.Digit);
+            CharacterRule lowerCase = new CharacterRule(EnglishCharacterData.LowerCase);
+            CharacterRule upperCase = new CharacterRule(EnglishCharacterData.UpperCase);
+            String newPassword = passwordGenerator.generatePassword(8,digit,lowerCase,upperCase);
+            UserEntity userEntity = optionalUserEntity.get();
+            userEntity.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.saveAndFlush(userEntity);
             emailSender.sendMail(email,
                     FORGOTTEN_PASSWORD_SUBJECT,
-                    String.format(EMAIL_BODY,email,optionalUserEntity.get().getPassword()));
+                    String.format(EMAIL_BODY,email,newPassword));
 
             return true;
         }
